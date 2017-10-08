@@ -1,0 +1,23 @@
+{
+  "name": "agrile_frene",
+  "version": "1.0.0",
+  "description": "Application de gestion pour la lutte à l'agrile",
+  "main": "manage.py",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://www.github.com/snoreau/sosfrene"
+  },
+  "author": "Luc Lavoie",
+  "license": "ISC",
+  "devDependencies": {
+    "bootstrap": "^3.3.7",
+    "bootstrap-sass": "^3.3.7",
+    "gulp": "^3.9.1",
+    "handlebars": "^4.0.10",
+    "jquery": "^3.2.1",
+    "sass": "^1.0.0-beta.2"
+  }
+}
