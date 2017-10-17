@@ -14,10 +14,20 @@
   "license": "ISC",
   "devDependencies": {
     "bootstrap": "^3.3.7",
+    "bootstrap-datepicker": "^1.7.1",
     "bootstrap-sass": "^3.3.7",
+    "bootswatch": "^3.3.7",
+    "font-awesome": "^4.7.0",
     "gulp": "^3.9.1",
+    "gulp-cli": "^1.4.0",
+    "gulp-sass": "^3.1.0",
+    "gulp-util": "^3.0.8",
     "handlebars": "^4.0.10",
     "jquery": "^3.2.1",
-    "sass": "^1.0.0-beta.2"
+    "modernizr": "^3.5.0",
+    "node-sass": "^4.5.3",
+    "sass": "^1.0.0-beta.2",
+    "sass-webpack-plugin": "^0.3.3",
+    "webpack": "^3.6.0"
   }
 }

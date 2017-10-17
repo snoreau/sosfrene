@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block titre %} S.O.S Frêne - Ville de Montréal - Connexion {% endblock %}
+
+{% block conteneur %}
+    <div class="conteneur-principal-centre">
+        <div class="conteneur-centre">
+            <h3>Connexion</h3>
+            {% if erreur %}
+            <div class="alert alert-danger" role="alert">
+                Le mot de passe n'est pas valide.
+            </div>
+            {% endif %}
+            {% load crispy_forms_tags %}
+            {% crispy form %}
+        </div>
+    </div>
+{% endblock %}

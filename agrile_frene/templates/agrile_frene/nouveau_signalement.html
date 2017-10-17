@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block titre %} S.O.S Frêne - Ville de Montréal - Nouveau signalement {% endblock %}
+
+{% block conteneur %}
+    <div class="conteneur-principal-centre">
+        <div class="conteneur-centre">
+            <h2>Nouveau signalement</h2>
+            {% load crispy_forms_tags %}
+            {% crispy form %}
+        </div>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block titre %} S.O.S Frêne - Ville de Montréal - Inscription {% endblock %}
+
+{% block conteneur %}
+    <div class="conteneur-principal-centre">
+        <div class="conteneur-centre">
+            {% if erreur %}
+            <div class="alert alert-danger" role="alert">
+                Une erreur est survenue lors de la création de votre compte. Veuillez
+                rééssayer ou nous contacter par courriel.
+            </div>
+            {% endif %}
+            {% if reussite %}
+            <div class="alert alert-success" role="alert">
+                Votre compte a été créé avec succès. Vous pouvez maintenant vous connecter.
+            </div>
+            {% endif %}
+            <h3>Inscription au service</h3>
+            <p>Afin de pouvoir participer à notre plateforme, il suffit de remplir le formulaire suivant pour créer
+                votre compte.</p>
+            {% load crispy_forms_tags %}
+            {% crispy form %}
+        </div>
+    </div>
+{% endblock %}

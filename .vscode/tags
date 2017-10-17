@@ -1,0 +1,176 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+0001_initial.py	../agrile_frene/migrations/0001_initial.py	1;"	kind:file	line:1
+ALLOWED_HOSTS	../agrile_frene/settings.py	/^ALLOWED_HOSTS = []$/;"	kind:variable	line:28
+AUTH_PASSWORD_VALIDATORS	../agrile_frene/settings.py	/^AUTH_PASSWORD_VALIDATORS = [$/;"	kind:variable	line:93
+AccueilView	../agrile_frene/views.py	/^class AccueilView(View):$/;"	kind:class	line:9
+Activite	../agrile_frene/models.py	/^class Activite(models.Model):$/;"	kind:class	line:45
+BASE_DIR	../agrile_frene/settings.py	/^BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))$/;"	kind:variable	line:16
+CRISPY_TEMPLATE_PACK	../agrile_frene/settings.py	/^CRISPY_TEMPLATE_PACK = 'bootstrap3'$/;"	kind:variable	line:127
+ConnexionView	../agrile_frene/views.py	/^class ConnexionView(View):$/;"	kind:class	line:39
+DATABASES	../agrile_frene/settings.py	/^DATABASES = {$/;"	kind:variable	line:78
+DEBUG	../agrile_frene/settings.py	/^DEBUG = True$/;"	kind:variable	line:26
+DetailObservation	../agrile_frene/models.py	/^class DetailObservation(models.Model):$/;"	kind:class	line:35
+EnregistrementForm	../agrile_frene/forms.py	/^class EnregistrementForm(forms.Form):$/;"	kind:class	line:10
+EnregistrementForm	../agrile_frene/views.py	/^from .forms import EnregistrementForm$/;"	kind:namespace	line:5
+EnregistrementView	../agrile_frene/views.py	/^class EnregistrementView(View):$/;"	kind:class	line:15
+FormHelper	../agrile_frene/forms.py	/^from crispy_forms.helper import FormHelper$/;"	kind:namespace	line:4
+INSTALLED_APPS	../agrile_frene/settings.py	/^INSTALLED_APPS = [$/;"	kind:variable	line:33
+LANGUAGE_CODE	../agrile_frene/settings.py	/^LANGUAGE_CODE = 'en-us'$/;"	kind:variable	line:112
+Localisation	../agrile_frene/models.py	/^class Localisation(models.Model):$/;"	kind:class	line:17
+MIDDLEWARE	../agrile_frene/settings.py	/^MIDDLEWARE = [$/;"	kind:variable	line:44
+Message	../agrile_frene/models.py	/^class Message(models.Model):$/;"	kind:class	line:10
+Migration	../agrile_frene/migrations/0001_initial.py	/^class Migration(migrations.Migration):$/;"	kind:class	line:11
+Notification	../agrile_frene/models.py	/^class Notification(models.Model):$/;"	kind:class	line:53
+Observation	../agrile_frene/models.py	/^class Observation(models.Model):$/;"	kind:class	line:22
+Photo	../agrile_frene/models.py	/^class Photo(models.Model):$/;"	kind:class	line:30
+ROOT_URLCONF	../agrile_frene/settings.py	/^ROOT_URLCONF = 'agrile_frene.urls'$/;"	kind:variable	line:54
+SECRET_KEY	../agrile_frene/settings.py	/^SECRET_KEY = 'fhw3ei1%4^s$x-$+gj#!kxgp%5q3(@b+tje)b78wc+)hx_2b1='$/;"	kind:variable	line:23
+STATIC_URL	../agrile_frene/settings.py	/^STATIC_URL = '\/static\/'$/;"	kind:variable	line:126
+Specimen	../agrile_frene/models.py	/^class Specimen(models.Model):$/;"	kind:class	line:40
+Submit	../agrile_frene/forms.py	/^from crispy_forms.layout import Submit$/;"	kind:namespace	line:5
+TEMPLATES	../agrile_frene/settings.py	/^TEMPLATES = [$/;"	kind:variable	line:56
+TIME_ZONE	../agrile_frene/settings.py	/^TIME_ZONE = 'UTC'$/;"	kind:variable	line:114
+USE_I18N	../agrile_frene/settings.py	/^USE_I18N = True$/;"	kind:variable	line:116
+USE_L10N	../agrile_frene/settings.py	/^USE_L10N = True$/;"	kind:variable	line:118
+USE_TZ	../agrile_frene/settings.py	/^USE_TZ = True$/;"	kind:variable	line:120
+User	../agrile_frene/models.py	/^from django.contrib.auth.models import User$/;"	kind:namespace	line:4
+User	../agrile_frene/views.py	/^from django.contrib.auth.models import User$/;"	kind:namespace	line:3
+Utilisateur	../agrile_frene/api.py	/^from .models import Utilisateur$/;"	kind:namespace	line:1
+Utilisateur	../agrile_frene/models.py	/^class Utilisateur(User):$/;"	kind:class	line:6
+Utilisateur	../agrile_frene/views.py	/^from .models import Utilisateur$/;"	kind:namespace	line:6
+ValidationError	../agrile_frene/forms.py	/^from django.core.exceptions import ValidationError$/;"	kind:namespace	line:2
+View	../agrile_frene/views.py	/^from django.views import View$/;"	kind:namespace	line:1
+WSGI_APPLICATION	../agrile_frene/settings.py	/^WSGI_APPLICATION = 'agrile_frene.wsgi.application'$/;"	kind:variable	line:72
+__init__	../agrile_frene/forms.py	/^    def __init__(self, *args, **kwargs):$/;"	kind:member	line:21
+__init__.py	../agrile_frene/__init__.py	1;"	kind:file	line:1
+__init__.py	../agrile_frene/migrations/__init__.py	1;"	kind:file	line:1
+activite	../agrile_frene/models.py	/^    activite = models.ForeignKey(Activite)$/;"	kind:variable	line:56
+api.py	../agrile_frene/api.py	1;"	kind:file	line:1
+app_name	../agrile_frene/urls.py	/^app_name = 'sosfrene'$/;"	kind:variable	line:7
+application	../agrile_frene/wsgi.py	/^application = get_wsgi_application()$/;"	kind:variable	line:16
+auth	../agrile_frene/migrations/0001_initial.py	/^import django.contrib.auth.models$/;"	kind:namespace	line:6
+bases	../agrile_frene/migrations/0001_initial.py	/^            bases=('auth.user',),$/;"	kind:variable	line:94
+clean_confirm_password	../agrile_frene/forms.py	/^    def clean_confirm_password(self):$/;"	kind:member	line:56
+clean_email	../agrile_frene/forms.py	/^    def clean_email(self):$/;"	kind:member	line:42
+clean_first_name	../agrile_frene/forms.py	/^    def clean_first_name(self):$/;"	kind:member	line:30
+clean_last_name	../agrile_frene/forms.py	/^    def clean_last_name(self):$/;"	kind:member	line:36
+clean_password	../agrile_frene/forms.py	/^    def clean_password(self):$/;"	kind:member	line:50
+confirm_password	../agrile_frene/forms.py	/^    confirm_password = forms.CharField($/;"	kind:variable	line:16
+contenu	../agrile_frene/models.py	/^    contenu = models.CharField(max_length=1000)$/;"	kind:variable	line:15
+contrib	../agrile_frene/migrations/0001_initial.py	/^import django.contrib.auth.models$/;"	kind:namespace	line:6
+courriel_existe	../agrile_frene/api.py	/^def courriel_existe(courriel):$/;"	kind:function	line:3
+courriel_existe	../agrile_frene/forms.py	/^from .api import courriel_existe$/;"	kind:namespace	line:7
+date	../agrile_frene/models.py	/^    date = models.DateTimeField()$/;"	kind:variable	line:12
+date	../agrile_frene/models.py	/^    date = models.DateTimeField()$/;"	kind:variable	line:48
+date	../agrile_frene/models.py	/^    date = models.DateTimeField()$/;"	kind:variable	line:55
+db	../agrile_frene/migrations/0001_initial.py	/^import django.db.models.deletion$/;"	kind:namespace	line:8
+deletion	../agrile_frene/migrations/0001_initial.py	/^import django.db.models.deletion$/;"	kind:namespace	line:8
+dependencies	../agrile_frene/migrations/0001_initial.py	/^    dependencies = [$/;"	kind:variable	line:15
+description	../agrile_frene/models.py	/^    description = models.CharField(max_length=500)$/;"	kind:variable	line:26
+description	../agrile_frene/models.py	/^    description = models.CharField(max_length=500)$/;"	kind:variable	line:32
+description	../agrile_frene/models.py	/^    description = models.CharField(max_length=500)$/;"	kind:variable	line:50
+django	../agrile_frene/migrations/0001_initial.py	/^import django.contrib.auth.models$/;"	kind:namespace	line:6
+django	../agrile_frene/migrations/0001_initial.py	/^import django.db.models.deletion$/;"	kind:namespace	line:8
+django	../manage.py	/^            import django$/;"	kind:namespace	line:14
+email	../agrile_frene/forms.py	/^    email = forms.CharField(label="Courriel", max_length=80, required=False)$/;"	kind:variable	line:13
+etat	../agrile_frene/models.py	/^    etat = models.CharField(max_length=50)$/;"	kind:variable	line:42
+execute_from_command_line	../manage.py	/^        from django.core.management import execute_from_command_line$/;"	kind:namespace	line:8
+expediteur	../agrile_frene/models.py	/^    expediteur = models.ForeignKey(Utilisateur, related_name="+")$/;"	kind:variable	line:13
+field	../agrile_frene/migrations/0001_initial.py	/^            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='+', to='agrile_frene.Utilisateur'),$/;"	kind:variable	line:112
+field	../agrile_frene/migrations/0001_initial.py	/^            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='+', to='agrile_frene.Utilisateur'),$/;"	kind:variable	line:117
+field	../agrile_frene/migrations/0001_initial.py	/^            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='agrile_frene.Observation'),$/;"	kind:variable	line:122
+field	../agrile_frene/migrations/0001_initial.py	/^            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='agrile_frene.Photo'),$/;"	kind:variable	line:127
+field	../agrile_frene/migrations/0001_initial.py	/^            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='agrile_frene.Specimen'),$/;"	kind:variable	line:107
+field	../agrile_frene/migrations/0001_initial.py	/^            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='agrile_frene.Specimen'),$/;"	kind:variable	line:132
+field	../agrile_frene/migrations/0001_initial.py	/^            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='agrile_frene.Utilisateur'),$/;"	kind:variable	line:102
+fields	../agrile_frene/migrations/0001_initial.py	/^            fields=[$/;"	kind:variable	line:22
+fields	../agrile_frene/migrations/0001_initial.py	/^            fields=[$/;"	kind:variable	line:31
+fields	../agrile_frene/migrations/0001_initial.py	/^            fields=[$/;"	kind:variable	line:37
+fields	../agrile_frene/migrations/0001_initial.py	/^            fields=[$/;"	kind:variable	line:45
+fields	../agrile_frene/migrations/0001_initial.py	/^            fields=[$/;"	kind:variable	line:53
+fields	../agrile_frene/migrations/0001_initial.py	/^            fields=[$/;"	kind:variable	line:61
+fields	../agrile_frene/migrations/0001_initial.py	/^            fields=[$/;"	kind:variable	line:69
+fields	../agrile_frene/migrations/0001_initial.py	/^            fields=[$/;"	kind:variable	line:77
+fields	../agrile_frene/migrations/0001_initial.py	/^            fields=[$/;"	kind:variable	line:85
+first_name	../agrile_frene/forms.py	/^    first_name = forms.CharField(label="Prénom", max_length=80, required=False)$/;"	kind:variable	line:11
+form_class	../agrile_frene/views.py	/^    form_class = EnregistrementForm$/;"	kind:variable	line:16
+forms	../agrile_frene/forms.py	/^from django import forms$/;"	kind:namespace	line:1
+forms.py	../agrile_frene/forms.py	1;"	kind:file	line:1
+get	../agrile_frene/views.py	/^    def get(self, request):$/;"	kind:member	line:11
+get	../agrile_frene/views.py	/^    def get(self, request):$/;"	kind:member	line:19
+get	../agrile_frene/views.py	/^    def get(self, request):$/;"	kind:member	line:41
+get_wsgi_application	../agrile_frene/wsgi.py	/^from django.core.wsgi import get_wsgi_application$/;"	kind:namespace	line:12
+initial	../agrile_frene/migrations/0001_initial.py	/^    initial = True$/;"	kind:variable	line:13
+initial	../agrile_frene/views.py	/^    initial = {}$/;"	kind:variable	line:17
+label	../agrile_frene/forms.py	/^        label="Confirmez votre mot de passe",$/;"	kind:variable	line:17
+last_name	../agrile_frene/forms.py	/^    last_name = forms.CharField(label="Nom", max_length=80, required=False)$/;"	kind:variable	line:12
+latitude	../agrile_frene/models.py	/^    latitude = models.FloatField()$/;"	kind:variable	line:19
+localisation	../agrile_frene/models.py	/^    localisation = models.ForeignKey(Localisation)$/;"	kind:variable	line:28
+localisation	../agrile_frene/models.py	/^    localisation = models.ForeignKey(Localisation)$/;"	kind:variable	line:43
+longitude	../agrile_frene/models.py	/^    longitude = models.FloatField()$/;"	kind:variable	line:20
+manage.py	../manage.py	1;"	kind:file	line:1
+managers	../agrile_frene/migrations/0001_initial.py	/^            managers=[$/;"	kind:variable	line:95
+migrations	../agrile_frene/migrations/0001_initial.py	/^from django.db import migrations, models$/;"	kind:namespace	line:7
+model_name	../agrile_frene/migrations/0001_initial.py	/^            model_name='activite',$/;"	kind:variable	line:130
+model_name	../agrile_frene/migrations/0001_initial.py	/^            model_name='detailobservation',$/;"	kind:variable	line:120
+model_name	../agrile_frene/migrations/0001_initial.py	/^            model_name='detailobservation',$/;"	kind:variable	line:125
+model_name	../agrile_frene/migrations/0001_initial.py	/^            model_name='message',$/;"	kind:variable	line:110
+model_name	../agrile_frene/migrations/0001_initial.py	/^            model_name='message',$/;"	kind:variable	line:115
+model_name	../agrile_frene/migrations/0001_initial.py	/^            model_name='notification',$/;"	kind:variable	line:105
+model_name	../agrile_frene/migrations/0001_initial.py	/^            model_name='observation',$/;"	kind:variable	line:100
+models	../agrile_frene/migrations/0001_initial.py	/^from django.db import migrations, models$/;"	kind:namespace	line:7
+models	../agrile_frene/migrations/0001_initial.py	/^import django.contrib.auth.models$/;"	kind:namespace	line:6
+models	../agrile_frene/migrations/0001_initial.py	/^import django.db.models.deletion$/;"	kind:namespace	line:8
+models	../agrile_frene/models.py	/^from django.db import models$/;"	kind:namespace	line:3
+models.py	../agrile_frene/models.py	1;"	kind:file	line:1
+name	../agrile_frene/migrations/0001_initial.py	/^            name='Activite',$/;"	kind:variable	line:21
+name	../agrile_frene/migrations/0001_initial.py	/^            name='DetailObservation',$/;"	kind:variable	line:30
+name	../agrile_frene/migrations/0001_initial.py	/^            name='Localisation',$/;"	kind:variable	line:36
+name	../agrile_frene/migrations/0001_initial.py	/^            name='Message',$/;"	kind:variable	line:44
+name	../agrile_frene/migrations/0001_initial.py	/^            name='Notification',$/;"	kind:variable	line:52
+name	../agrile_frene/migrations/0001_initial.py	/^            name='Observation',$/;"	kind:variable	line:60
+name	../agrile_frene/migrations/0001_initial.py	/^            name='Photo',$/;"	kind:variable	line:68
+name	../agrile_frene/migrations/0001_initial.py	/^            name='Specimen',$/;"	kind:variable	line:76
+name	../agrile_frene/migrations/0001_initial.py	/^            name='Utilisateur',$/;"	kind:variable	line:84
+name	../agrile_frene/migrations/0001_initial.py	/^            name='expediteur',$/;"	kind:variable	line:111
+name	../agrile_frene/migrations/0001_initial.py	/^            name='observation',$/;"	kind:variable	line:121
+name	../agrile_frene/migrations/0001_initial.py	/^            name='photo',$/;"	kind:variable	line:126
+name	../agrile_frene/migrations/0001_initial.py	/^            name='receveur',$/;"	kind:variable	line:116
+name	../agrile_frene/migrations/0001_initial.py	/^            name='specimen',$/;"	kind:variable	line:106
+name	../agrile_frene/migrations/0001_initial.py	/^            name='specimen',$/;"	kind:variable	line:131
+name	../agrile_frene/migrations/0001_initial.py	/^            name='utilisateur',$/;"	kind:variable	line:101
+name	../agrile_frene/urls.py	/^    name="enregistrement"),$/;"	kind:variable	line:11
+notifications	../agrile_frene/models.py	/^    notifications = models.BooleanField(default=False)$/;"	kind:variable	line:8
+observation	../agrile_frene/models.py	/^    observation = models.ForeignKey(Observation)$/;"	kind:variable	line:37
+operations	../agrile_frene/migrations/0001_initial.py	/^    operations = [$/;"	kind:variable	line:19
+options	../agrile_frene/migrations/0001_initial.py	/^            options={$/;"	kind:variable	line:89
+os	../agrile_frene/settings.py	/^import os$/;"	kind:namespace	line:13
+os	../agrile_frene/wsgi.py	/^import os$/;"	kind:namespace	line:10
+os	../manage.py	/^import os$/;"	kind:namespace	line:2
+password	../agrile_frene/forms.py	/^    password = forms.CharField(label="Mot de passe", widget=forms.PasswordInput,$/;"	kind:variable	line:14
+photo	../agrile_frene/models.py	/^    photo = models.ForeignKey(Photo)$/;"	kind:variable	line:38
+post	../agrile_frene/views.py	/^    def post(self, request):$/;"	kind:member	line:25
+post	../agrile_frene/views.py	/^    def post(self, request):$/;"	kind:member	line:44
+receveur	../agrile_frene/models.py	/^    receveur = models.ForeignKey(Utilisateur, related_name="+")$/;"	kind:variable	line:14
+render	../agrile_frene/views.py	/^from django.shortcuts import render$/;"	kind:namespace	line:2
+settings	../agrile_frene/migrations/0001_initial.py	/^from django.conf import settings$/;"	kind:namespace	line:5
+settings.py	../agrile_frene/settings.py	1;"	kind:file	line:1
+specimen	../agrile_frene/models.py	/^    specimen = models.ForeignKey(Specimen)    $/;"	kind:variable	line:51
+specimen	../agrile_frene/models.py	/^    specimen = models.ForeignKey(Specimen)    $/;"	kind:variable	line:57
+sys	../manage.py	/^import sys$/;"	kind:namespace	line:3
+type	../agrile_frene/models.py	/^    type = models.CharField(max_length=50)$/;"	kind:variable	line:49
+unicode_literals	../agrile_frene/migrations/0001_initial.py	/^from __future__ import unicode_literals$/;"	kind:namespace	line:3
+url	../agrile_frene/models.py	/^    url = models.CharField(max_length=500)$/;"	kind:variable	line:33
+url	../agrile_frene/urls.py	/^from django.conf.urls import url$/;"	kind:namespace	line:4
+urlpatterns	../agrile_frene/urls.py	/^urlpatterns = [$/;"	kind:variable	line:8
+urls.py	../agrile_frene/urls.py	1;"	kind:file	line:1
+utilisateur	../agrile_frene/models.py	/^    utilisateur = models.ForeignKey(Utilisateur)$/;"	kind:variable	line:27
+views	../agrile_frene/urls.py	/^from . import views$/;"	kind:namespace	line:5
+views.py	../agrile_frene/views.py	1;"	kind:file	line:1
+widget	../agrile_frene/forms.py	/^        widget=forms.PasswordInput,$/;"	kind:variable	line:18
+wsgi.py	../agrile_frene/wsgi.py	1;"	kind:file	line:1

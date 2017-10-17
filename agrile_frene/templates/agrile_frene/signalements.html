@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block titre %} S.O.S Frêne - Ville de Montréal - Mes signalements {% endblock %}
+
+{% load static %}
+{% block styles %}
+    <link href="{% static 'css/app.css' %}" rel="stylesheet">
+    <link href="{% static 'css/buttons.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block contenu %}
+
+    <div class="row">
+        <div class="col-md-12 col-xs-12">
+            <h2>Signalements</h2>
+
+            <table class="table-striped">
+
+            </table>
+        </div>
+    </div>
+
+    <p id="test"></p>
+    <a id="btn-ajout-signalement" href="{% url 'nouveau_signalement' %}" class="button button-highlight button-circle button-jumbo flottant">
+        <i class="fa fa-plus"></i>
+    </a>
+{% endblock %}
