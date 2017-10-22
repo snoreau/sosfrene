@@ -13,6 +13,7 @@
             {% endif %}
             {% load crispy_forms_tags %}
             {% crispy form %}
+            <p>Vous n'avez pas de compte?<br> <a href="{% url 'enregistrement' %}">Inscrivez-vous</a> dès maintenant.</p>
         </div>
     </div>
 {% endblock %}

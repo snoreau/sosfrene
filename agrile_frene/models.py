@@ -48,7 +48,7 @@ class Signalement(models.Model):
 class Photo(models.Model):
     """ Définit une photo soumise par un utilisateur """
     description = models.CharField(max_length=500)
-    url = models.CharField(max_length=500)
+    source = models.ImageField(upload_to='uploads/')
 
 class DetailSignalement(models.Model):
     """ Définit chaque photo soumise par Signalement """

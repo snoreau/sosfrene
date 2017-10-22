@@ -2,42 +2,43 @@ var gulp = require('gulp');
 var sass = require('gulp-sass');
 
 var config = {
-    bootstrapDir: './node_modules/bootstrap-sass',
-    bootswatchDir: './node_modules/bootswatch/yeti',
-    jqueryDir: './node_modules/jquery/dist/*',
-    modernizrDir: './node_modules/modernizr/lib/',
-    compileDir: './agrile_frene/static',
-    faDir: './node_modules/font-awesome'
+    bootstrap: './node_modules/bootstrap-sass',
+    bootswatch: './node_modules/bootswatch/yeti',
+    jquery: './node_modules/jquery/dist/*',
+    datePicker: '"./node_modules/bootstrap-datepicker/dist/js/*',
+    modernizr: './node_modules/modernizr/lib/modernizr.js',
+    overlay: './node_modules/gasparesganga-jquery-loading-overlay/src/loadingoverlay.min.js',
+    compile: './agrile_frene/static',
+    fa: './node_modules/font-awesome'
 };
 
 gulp.task('css', function() {
-    return gulp.src(config.compileDir + '/css/app.scss')
+    return gulp.src(config.compile + '/css/app.scss')
     .pipe(sass({
         includePaths: [
-            config.bootstrapDir + "/assets/stylesheets",
-            config.bootswatchDir, config.faDir + "/scss"],
+            config.bootstrap + "/assets/stylesheets",
+            config.bootswatch, config.fa + "/scss"],
     }))
-    .pipe(gulp.dest(config.compileDir + '/css'));
+    .pipe(gulp.dest(config.compile + '/css'));
 });
 
 gulp.task('fonts', function() {
     return gulp.src([
-        config.bootstrapDir + '/assets/fonts/**/*',
-        config.faDir + '/fonts/*'
+        config.bootstrap + '/assets/fonts/**/*',
+        config.fa + '/fonts/*'
     ])
-    .pipe(gulp.dest(config.compileDir + '/fonts'));
+    .pipe(gulp.dest(config.compile + '/fonts'));
 });
 
 gulp.task('js', function() {
     return gulp.src([
-        config.bootstrapDir + '/assets/javascripts/**/*',
-        config.jqueryDir, config.modernizrDir + "modernizr.js",
-        "./node_modules/bootstrap-datepicker/dist/js/*"])
-    .pipe(gulp.dest(config.compileDir + '/js'));
+        config.bootstrap + '/assets/javascripts/**/*', config.overlay,
+        config.jquery, config.modernizr, config.datePicker])
+    .pipe(gulp.dest(config.compile + '/js'));
 });
 
 gulp.task('watch',function() {
-    gulp.watch(config.compileDir + "/css/*", ['css']);
+    gulp.watch(config.compile + "/css/*", ['css']);
 });
 
 gulp.task('default', ['css', 'fonts', 'js']);

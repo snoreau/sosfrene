@@ -1,13 +1,16 @@
-import logging
+import logging, json
 from django.views import View
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import JsonResponse
 from django.utils import timezone
-
-from .forms import EnregistrementForm, ConnexionForm, SignalementForm
-from .models import Utilisateur
+from django.utils.timezone import now
+from .forms import (
+    EnregistrementForm, ConnexionForm, SignalementForm, ProfilForm)
+from .models import (
+    Utilisateur, Photo, Signalement, DetailSignalement, Localisation)
 from .api import signalements_utilisateur
 
 logger = logging.getLogger(__name__)
@@ -15,7 +18,6 @@ logger = logging.getLogger(__name__)
 class AccueilView(View):
 
     def get(self, request):
-        print(request.user)
         return render(request, "accueil.html", {"user": request.user})
 
 
@@ -55,11 +57,11 @@ class EnregistrementView(View):
                     {'form': form, "erreur": True})
 
             form = self.form_class(initial=self.initial)
-            return render(
-                request, "enregistrement.html", {'form': form})
+            return render(request, "enregistrement.html",
+                          {'form': form, "reussite": True})
+        return render(
+            request, "enregistrement.html", {'form': form})
 
-        return render(request, "enregistrement.html",
-                      {'form': form, "reussite": True})
 
 
 class ConnexionView(View):
@@ -100,8 +102,30 @@ class SignalementsView(LoginRequiredMixin, View):
 
     def get(self, request):
         context = {}
-        context["signalements"] = signalements_utilisateur(request.user)
+        self._fill_context(context, request.user)
         return render(request, "signalements.html", context)
+
+    def _fill_context(self, context, user):
+        entetes = ["Date", "Localisation", "État"]
+        context["entetes"] = entetes
+        context["signalements"] = signalements_utilisateur(user)
+
+class DetailsSignalementView(LoginRequiredMixin, View):
+
+    def get(self, request, signalement_id):
+        context = {}
+        self._fill_context(context, signalement_id)
+        return render(request, "details_signalement.html", context)
+
+    def _fill_context(self, context, signalement_id):
+        try:
+            signalement = Signalement.objects.get(id=signalement_id)
+            context["signalement"] = signalement
+            photos = Photo.objects.filter(
+                detailsignalement__signalement=signalement)
+            context["photos"] = photos
+        except Signalement.DoesNotExist:
+            return
 
 
 class NouveauSignalementView(LoginRequiredMixin, View):
@@ -117,9 +141,37 @@ class NouveauSignalementView(LoginRequiredMixin, View):
     def post(self, request):
         form = self.form_class(request.POST)
         if form.is_valid():
-            pass
+            try:
+                localisation = Localisation()
+                localisation.longitude = form.cleaned_data["longitude"]
+                localisation.latitude = form.cleaned_data["latitude"]
+                localisation.save()
+                signalement = Signalement()
+                signalement.date = now()
+                signalement.description = form.cleaned_data["description"]
+                signalement.utilisateur = Utilisateur.objects.get(
+                    user=request.user)
+                signalement.localisation = localisation
+                signalement.save()
 
-        return render(request, "nouveau_signalement.html", {'form': form})
+                json_data = json.loads(form.cleaned_data["photos_pks"])
+                print(str(json_data))
+                for photo_pk in json_data["photos_pks"]:
+                    detail = DetailSignalement()
+                    detail.signalement = signalement
+                    detail.photo = Photo.objects.get(pk=photo_pk)
+                    detail.save()
+
+                form = self.form_class(initial=self.initial)
+                return render(
+                    request, "nouveau_signalement.html",
+                    {'form': form, 'reussite': True})
+            except Exception:
+                return render(
+                    request, "nouveau_signalement.html",
+                    {'form': form, 'erreur': True})
+        else:
+            render(request, "nouveau_signalement.html", {'form': form})
 
 
 class MessagesView(View):
@@ -128,7 +180,45 @@ class MessagesView(View):
         pass
 
 
-class ProfileView(View):
+class ProfilView(View):
+    form_class = ProfilForm
+    initial = {}
 
     def get(self, request):
-        pass
+        self._remplir_initial(request.user)
+        form = self.form_class(initial=self.initial)
+        context = {}
+        context["form"] = form
+        context["user"] = request.user
+        return render(request, "profil.html", context)
+
+    def post(self, request):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            utilisateur = Utilisateur.objects.get(user=request.user)
+            utilisateur.notifications = form.cleaned_data["notifications"]
+            utilisateur.save()
+
+            self._remplir_initial(request.user)
+            form = self.form_class(initial=self.initial)
+            return render(request, "profil.html", {'form': form, "reussite": True})
+        return render(request, "profil.html", {'form': form})
+
+    def _remplir_initial(self, user):
+        utilisateur = Utilisateur.objects.get(user=user)
+        self.initial["notifications"] = utilisateur.notifications
+
+
+class TelechargementView(View):
+
+    def post(self, request):
+        fichiers = request.FILES.getlist('file')
+        data = {}
+        pks = []
+        for fichier in fichiers:
+            photo = Photo()
+            photo.source = fichier
+            photo.save()
+            pks.append(photo.pk)
+        data = {"photos_pk": pks}
+        return JsonResponse(data)

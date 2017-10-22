@@ -1,10 +1,10 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block titre %} S.O.S Frêne - Ville de Montréal - Mes signalements {% endblock %}
 
-{% load static %}
 {% block styles %}
-    <link href="{% static 'css/app.css' %}" rel="stylesheet">
+    {{ block.super }}
     <link href="{% static 'css/buttons.css' %}" rel="stylesheet">
 {% endblock %}
 
@@ -14,14 +14,40 @@
         <div class="col-md-12 col-xs-12">
             <h2>Signalements</h2>
 
-            <table class="table-striped">
-
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                    {% for entete in entetes %}
+                        <th>{{entete}}</th>
+                    {% endfor %}
+                    </tr>
+                </thead>
+                <tbody>
+                {% for signalement in signalements %}
+                    <tr class="ligne-lien" data-href="/signalements/{{ signalement.id }}">
+                        <td>{{ signalement.date|date:"Y/m/d" }}</td>
+                        <td>{{ signalement.localisation.latitude|floatformat:5 }}
+                            <br>
+                            {{ signalement.localisation.longitude|floatformat:5 }}
+                        </td>
+                        {% if signalement.accepte %}
+                            <td>Traité</td>
+                        {% else %}
+                            <td>En attente</td>
+                        {% endif %}
+                    </tr>
+                {% endfor %}
+                </tbody>
             </table>
         </div>
     </div>
 
-    <p id="test"></p>
-    <a id="btn-ajout-signalement" href="{% url 'nouveau_signalement' %}" class="button button-highlight button-circle button-jumbo flottant">
-        <i class="fa fa-plus"></i>
+    <a href="{% url 'nouveau_signalement' %}" class="button btn-primaire button-circle button-jumbo flottant">
+        <i style="color: #fff;" class="fa fa-plus"></i>
     </a>
+{% endblock %}
+
+{% block scripts %}
+    {{ block.super }}
+    <script src="{% static 'js/agrile_frene/signalements.js' %}"></script>
 {% endblock %}

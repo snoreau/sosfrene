@@ -1,9 +1,9 @@
+@import "_variables-app";
 @import "_variables";
 @import "_bootstrap";
 @import "_bootswatch";
 @import "font-awesome";
 @import "_couleurs";
-@import "_variables-app";
 
 body {
     display: flex;
@@ -31,15 +31,44 @@ h1 {
 
 h2 {
     margin-top: 0;
+    margin-bottom: 20px;
+    text-transform: uppercase;
 }
 
 h3 {
     margin-top: 0;
 }
 
-.marge-haut-bas {
-    margin-top: 20px;
-    margin-bottom: 20px;
+fieldset {
+    margin-top: 10px;
+}
+
+legend {
+    margin-bottom: 25px;
+}
+
+label {
+    font-size: $font-normal;
+}
+
+table {
+    width: 100%;
+}
+
+td, th {
+    padding-left: 10px;
+}
+
+a.navbar-brand > i {
+    margin-top: -2px;
+}
+
+nav.container-fluid {
+    display: flex;
+}
+
+.marge-haut {
+    margin-top: 25px;
 }
 
 .visuel-accueil {
@@ -48,6 +77,10 @@ h3 {
 
 .logo {
     width: $logo-width;
+}
+
+.btn-primaire {
+    background-color: $brand-primary !important;
 }
 
 .conteneur-principal {
@@ -88,6 +121,14 @@ h3 {
     margin-right: $marge-item-footer;
 }
 
+.ligne-lien {
+    cursor: pointer;
+}
+
+.ligne-lien:hover {
+    border-right: 1px solid $brand-primary;
+}
+
 .lien-inverse {
     font-size: $font-small;
     color: #ffffff;
@@ -99,16 +140,11 @@ h3 {
 }
 
 .item-mobile {
-    font-size: 13px;
+    font-size: $font-small;
 }
 
 .btn {
     text-transform: uppercase;
-}
-
-.navbar-header {
-    display: flex;
-    align-items: center;
 }
 
 .navbar-brand {
@@ -142,6 +178,44 @@ ul.nav.navbar-nav li {
     color: red;
 }
 
+.file-browser {
+    margin-bottom: 15px;
+}
+
+.erreur {
+    color: $couleur-erreur;
+}
+
+.reussite {
+    color: $couleur-reussite;
+}
+
+.invisible {
+    visibility: hidden;
+    display: none;
+}
+
+.visible {
+    visibility: visible;
+    display: inline-block;
+}
+
+.image-signalement {
+    image-orientation: from-image;
+    max-height: $largeur-image;
+    border: 1px solid $gray;
+    margin-right: 20px;
+    margin-bottom: 20px;
+}
+
+#btn-localisation {
+    margin-bottom: 10px;
+}
+
+#btn-enregistrer-profil {
+    margin-top: 10px;
+}
+
 #caroussel {
     -webkit-box-shadow: 1px 3px 23px -7px rgba(0,0,0,0.78);
     -moz-box-shadow: 1px 3px 23px -7px rgba(0,0,0,0.78);
@@ -159,8 +233,8 @@ ul.nav.navbar-nav li {
 
 .flottant {
     position:fixed;
-    right: 30px;
-    bottom: 30px;
+    right: 50px;
+    bottom: 50px;
     -webkit-box-shadow: 1px 3px 23px -7px rgba(0,0,0,0.78);
     -moz-box-shadow: 1px 3px 23px -7px rgba(0,0,0,0.78);
     box-shadow: 1px 3px 23px -7px rgba(0,0,0,0.78);
@@ -191,6 +265,9 @@ ul.nav.navbar-nav li {
         font-size: $h1-size * 0.75;
     }
 
+    #btn-soumettre-signalement {
+        margin-top: 20px;
+    }
 }
 
 @media only screen and (max-width: 480px) {
@@ -214,6 +291,10 @@ ul.nav.navbar-nav li {
         margin: 0;
     }
 
+    .marge-haut {
+        margin-top: 10px;
+    }
+
     .carousel {
         overflow: hidden;
         height: 150px;
@@ -230,6 +311,27 @@ ul.nav.navbar-nav li {
 
     h1 {
         font-size: $h1-size * 0.5;
+    }
+
+    h2 {
+        font-size: $h2-size * 0.5;
+    }
+
+    p {
+        margin: 5px 0;
+    }
+
+    .image-signalement {
+        max-height: $largeur-image * 0.5;
+    }
+
+    #btn-soumettre-signalement {
+        width: 100%;
+        margin-top: 15px;
+    }
+
+    #btn-enregistrer-profil {
+        width: 100%;
     }
 }
 

@@ -2,7 +2,7 @@ from django import forms
 from django.core.exceptions import ValidationError
 
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Submit, Layout, Field
+from crispy_forms.layout import Submit, Layout, Div, ButtonHolder, Field
 
 from .api import courriel_existe
 
@@ -16,7 +16,7 @@ class SpanRequiredForm(forms.Form):
 class EnregistrementForm(SpanRequiredForm):
     first_name = forms.CharField(label="Prénom", max_length=80, required=False)
     last_name = forms.CharField(label="Nom", max_length=80, required=False)
-    email = forms.CharField(label="Courriel", max_length=80, required=False)
+    email = forms.EmailField(label="Courriel", max_length=80, required=False)
     password = forms.CharField(label="Mot de passe", widget=forms.PasswordInput,
                                max_length=80, required=False)
     confirm_password = forms.CharField(
@@ -90,7 +90,9 @@ class ConnexionForm(SpanRequiredForm):
 class SignalementForm(SpanRequiredForm):
     description = forms.CharField(
         widget=forms.Textarea, label="Description", max_length=500, required=False)
-    date = forms.DateField(required=False)
+    longitude = forms.FloatField(widget=forms.HiddenInput())
+    latitude = forms.FloatField(widget=forms.HiddenInput())
+    photos_pks = forms.CharField(widget=forms.HiddenInput())
 
     def __init__(self, *args, **kwargs):
         super(SignalementForm, self).__init__(*args, **kwargs)
@@ -98,11 +100,20 @@ class SignalementForm(SpanRequiredForm):
         self.helper.form_id = 'form-nouveau-signalement'
         self.helper.form_method = 'post'
         self.helper.form_action = 'nouveau_signalement'
-        self.helper.add_input(Submit('submit', 'Soumettre', css_class="btn-block"))
         self.helper.error_text_inline = False
         self.helper.layout = Layout(
-            "description", Field("date", template="date-picker.html"))
+            "longitude", "latitude", "photos_pks", "description")
 
-    def clean_description(self):
-        self.clean_required(self.cleaned_data["description"])
-        return self.cleaned_data["description"]
+
+class ProfilForm(forms.Form):
+    notifications = forms.BooleanField(
+        label="Reçevoir les notifications par courriel", required=False)
+
+    def __init__(self, *args, **kwargs):
+        super(ProfilForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_id = 'form-profil'
+        self.helper.form_method = 'post'
+        self.helper.form_action = 'profil'
+        self.helper.add_input(Submit(
+            'submit', 'Enregistrer', css_id="btn-enregistrer-profil"))
