@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "admin/base.html" %}
 {% load static %}
 
 {% block titre %} S.O.S Frêne - Ville de Montréal - Détails du signalement {% endblock %}
@@ -9,13 +9,14 @@
         <div class="col-md-12 col-xs-12">
             {% block navigation %}
             <ul class="breadcrumb">
-                <li><a href="{% url 'signalements' %}">Signalements</a></li>
+                <li><a href="{% url 'signalements_admin' %}">Signalements</a></li>
                 <li class="active">{{ signalement.id }}</li>
             </ul>
             {% endblock %}
 
-            {% block admin %}
-            {% endblock %}
+            {% if not signalement.accepte %}
+                <a id="btn-traiter-signalement" href="/admin/signalements/{{ signalement.id }}/traitement" class="btn btn-primary btn-large">Traiter</a>
+            {% endif %}
             <h2>Détails du signalement</h2>
 
             <fieldset>

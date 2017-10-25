@@ -2,9 +2,11 @@ from django import forms
 from django.core.exceptions import ValidationError
 
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Submit, Layout, Div, ButtonHolder, Field
+from crispy_forms.layout import Submit, Layout, ButtonHolder, Field
 
-from .api import courriel_existe
+from agrile_frene.api import courriel_existe
+from agrile_frene.models import Specimen
+from agrile_frene.constants import ETATS_SPECIMEN
 
 
 class SpanRequiredForm(forms.Form):
@@ -62,7 +64,7 @@ class EnregistrementForm(SpanRequiredForm):
 
 
 class ConnexionForm(SpanRequiredForm):
-    email = forms.CharField(label="Courriel", max_length=80, required=False)
+    email = forms.EmailField(label="Courriel", max_length=80, required=False)
     password = forms.CharField(label="Mot de passe", widget=forms.PasswordInput,
                                max_length=80, required=False)
 
@@ -87,6 +89,13 @@ class ConnexionForm(SpanRequiredForm):
         return self.cleaned_data["password"]
 
 
+class AdminConnexionForm(ConnexionForm):
+
+    def __init__(self, *args, **kwargs):
+        super(AdminConnexionForm, self).__init__(*args, **kwargs)
+        self.helper.form_action = "connexion_admin"
+
+
 class SignalementForm(SpanRequiredForm):
     description = forms.CharField(
         widget=forms.Textarea, label="Description", max_length=500, required=False)
@@ -105,6 +114,24 @@ class SignalementForm(SpanRequiredForm):
             "longitude", "latitude", "photos_pks", "description")
 
 
+class TraiterSignalementForm(forms.Form):
+    statut_specimen = forms.CharField(
+        widget=forms.HiddenInput(), required=False)
+    message = forms.CharField(
+        widget=forms.Textarea, label="Message pour l'utilisateur:",
+        max_length=1000, required=False)
+
+
+class MessageForm(SpanRequiredForm):
+    message = forms.CharField(
+        widget=forms.Textarea, label="Votre message:",
+        max_length=1000, required=False)
+
+    def clean_message(self):
+        self.clean_required(self.cleaned_data["message"])
+        return self.cleaned_data["message"]
+
+
 class ProfilForm(forms.Form):
     notifications = forms.BooleanField(
         label="Reçevoir les notifications par courriel", required=False)
@@ -117,3 +144,9 @@ class ProfilForm(forms.Form):
         self.helper.form_action = 'profil'
         self.helper.add_input(Submit(
             'submit', 'Enregistrer', css_id="btn-enregistrer-profil"))
+
+
+class SpecimenForm(forms.Form):
+    etat = forms.ChoiceField(choices=list(ETATS_SPECIMEN.values()))
+    latitude = forms.FloatField(label="Latitude")
+    longitude = forms.FloatField(label="Longitude")

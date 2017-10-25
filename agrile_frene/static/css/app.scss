@@ -60,7 +60,7 @@ td, th {
 }
 
 a.navbar-brand > i {
-    margin-top: -2px;
+    margin-top: 0;
 }
 
 nav.container-fluid {
@@ -126,6 +126,7 @@ nav.container-fluid {
 }
 
 .ligne-lien:hover {
+    border-left: 1px solid $brand-primary;
     border-right: 1px solid $brand-primary;
 }
 
@@ -200,6 +201,18 @@ ul.nav.navbar-nav li {
     display: inline-block;
 }
 
+.btn-large {
+    padding-left: 50px;
+    padding-right: 50px;
+}
+
+.message {
+    min-height: 100px;
+    padding: 10px 10px;
+    margin-bottom: 10px;
+    background-color: $gray-lighter;
+}
+
 .image-signalement {
     image-orientation: from-image;
     max-height: $largeur-image;
@@ -214,6 +227,10 @@ ul.nav.navbar-nav li {
 
 #btn-enregistrer-profil {
     margin-top: 10px;
+}
+
+#btn-traiter-signalement {
+    margin-bottom: 20px;
 }
 
 #caroussel {
@@ -328,6 +345,14 @@ ul.nav.navbar-nav li {
     #btn-soumettre-signalement {
         width: 100%;
         margin-top: 15px;
+    }
+
+    #btn-soumettre-message {
+        width: 100%;
+    }
+
+    #btn-repondre {
+        width: 100%;
     }
 
     #btn-enregistrer-profil {

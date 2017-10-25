@@ -28,7 +28,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = ["localhost", "192.168.2.184"]
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -38,9 +37,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'agrile_frene',
     'crispy_forms',
-    'sslserver'
+    'sslserver',
+    'widget_tweaks',
+    'agrile_frene'
 ]
 
 MIDDLEWARE = [
@@ -128,5 +128,3 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
-LOGIN_REDIRECT_URL = 'accueil'
-LOGIN_URL = 'connexion'

@@ -1,4 +1,4 @@
 
- $(".ligne-lien").click(function() {
+$(".ligne-lien").click(function() {
         window.document.location = $(this).data("href");
 });

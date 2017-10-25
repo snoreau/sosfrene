@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block titre %} S.O.S Frêne - Ville de Montréal - Composer un message {% endblock %}
+
+{% block contenu %}
+
+    <div class="row">
+        <div class="col-md-12 col-xs-12">
+            {% block navigation %}
+            <ul class="breadcrumb">
+                <li><a href="{% url 'messages' %}">Messages</a></li>
+                <li><a href="{% url 'details_message' message.id %}">{{ message.id }}</a></li>
+                <li class="active">Nouveau</li>
+            </ul>
+            {% endblock %}
+
+            {% if reussite %}
+            <div class="alert alert-success fade in" role="alert">
+                Votre message a été bien envoyé.
+                <button type="button" class="close" data-dismiss="alert" aria-label="Fermer">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            {% endif %}
+            <h2>Composer un message</h2>
+
+            <fieldset>
+                <label>Destinataire: {{ message.expediteur.user.get_full_name }}</label>
+                <br>
+                <label>Sujet: {{ message.sujet }}</label>
+            </fieldset>
+            <form id="form-message" action="{% url 'reponse' message.id  %}" method="post">
+                {% csrf_token %}
+                <div id="conteneur-message" class="form-group has-feedback">
+                    {{ form.message|attr:"cols:40"|attr:"rows:10"|attr:"id:ta-message"|add_class:"textarea form-control" }}
+                    <span class="help-block invisible">Vous devez entrer un message.</span>
+                </div>
+                <button id="btn-soumettre-message" type="button" class="btn btn-primary btn-large">Soumettre</button>
+            </form>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block scripts %}
+    {{ block.super }}
+    <script src="{% static 'js/agrile_frene/traiter_message.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block titre %} S.O.S Frêne - Ville de Montréal - Détails du message {% endblock %}
+
+{% block contenu %}
+
+    <div class="row">
+        <div class="col-md-12 col-xs-12">
+            {% block navigation %}
+            <ul class="breadcrumb">
+                <li><a href="{% url 'messages' %}">Messages</a></li>
+                <li class="active">{{ message.id }}</li>
+            </ul>
+            {% endblock %}
+
+            <h2>Détails du message</h2>
+
+            <fieldset>
+                <label>Date d'envoi: {{ message.date|date:"Y/m/d" }}</label>
+                <br>
+                <label>Expéditeur: {{ message.expediteur.user.get_full_name }}</label>
+                <br>
+                <label>Sujet: {{ message.sujet }}</label>
+                <br>
+                <p class="message">{{ message.contenu }}</p>
+            </fieldset>
+            <a id="btn-repondre" href="{% url 'reponse' message.id %}" class="btn btn-primary btn-large">Répondre</a>
+        </div>
+    </div>
+
+{% endblock %}

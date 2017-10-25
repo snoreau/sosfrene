@@ -1,4 +1,4 @@
-import logging, json
+import json
 from django.views import View
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
@@ -7,13 +7,13 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import JsonResponse
 from django.utils import timezone
 from django.utils.timezone import now
-from .forms import (
-    EnregistrementForm, ConnexionForm, SignalementForm, ProfilForm)
-from .models import (
-    Utilisateur, Photo, Signalement, DetailSignalement, Localisation)
-from .api import signalements_utilisateur
+from agrile_frene.forms import (
+    EnregistrementForm, ConnexionForm,
+    SignalementForm, MessageForm, ProfilForm)
+from agrile_frene.models import (
+    Utilisateur, Photo, Message, Signalement, DetailSignalement, Localisation)
+from agrile_frene.api import signalements_utilisateur, messages_utilisateur
 
-logger = logging.getLogger(__name__)
 
 class AccueilView(View):
 
@@ -70,7 +70,7 @@ class ConnexionView(View):
 
     def get(self, request):
         if request.user.is_authenticated():
-            return redirect("accueil")
+            return redirect("signalements")
 
         form = self.form_class(initial=self.initial)
         context = {}
@@ -87,7 +87,7 @@ class ConnexionView(View):
                 return redirect("signalements")
             else:
                 return render(request, "connexion.html",
-                              {'form': form, "erreur": True})
+                              {'form': form, "erreur_mdp": True})
 
         return render(request, "connexion.html", {'form': form})
 
@@ -99,6 +99,7 @@ class DeconnexionView(View):
 
 
 class SignalementsView(LoginRequiredMixin, View):
+    login_url = '/connexion/'
 
     def get(self, request):
         context = {}
@@ -106,11 +107,12 @@ class SignalementsView(LoginRequiredMixin, View):
         return render(request, "signalements.html", context)
 
     def _fill_context(self, context, user):
-        entetes = ["Date", "Localisation", "État"]
+        entetes = ["Date", "Localisation", "État", "# Spécimen"]
         context["entetes"] = entetes
         context["signalements"] = signalements_utilisateur(user)
 
 class DetailsSignalementView(LoginRequiredMixin, View):
+    login_url = '/connexion/'
 
     def get(self, request, signalement_id):
         context = {}
@@ -129,6 +131,7 @@ class DetailsSignalementView(LoginRequiredMixin, View):
 
 
 class NouveauSignalementView(LoginRequiredMixin, View):
+    login_url = '/connexion/'
     form_class = SignalementForm
     initial = {"date": timezone.now()}
 
@@ -174,13 +177,62 @@ class NouveauSignalementView(LoginRequiredMixin, View):
             render(request, "nouveau_signalement.html", {'form': form})
 
 
-class MessagesView(View):
+class MessagesView(LoginRequiredMixin, View):
+    login_url = '/connexion/'
 
     def get(self, request):
-        pass
+        context = {}
+        context["entetes"] = ["Date", "Expéditeur", "Sujet"]
+        context["messages"] = messages_utilisateur(request.user.email)
+        return render(request, "messages.html", context)
 
 
-class ProfilView(View):
+class DetailsMessageView(LoginRequiredMixin, View):
+    login_url = '/connexion/'
+
+    def get(self, request, message_id):
+        context = {}
+        message = Message.objects.get(id=message_id)
+        context["message"] = message
+        return render(request, "details_message.html", context)
+
+
+class ReponseMessageView(LoginRequiredMixin, View):
+    login_url = '/connexion/'
+    form_class = MessageForm
+    initial = {}
+
+    def get(self, request, message_id):
+        form = self.form_class(initial=self.initial)
+        context = {}
+        context["form"] = form
+        message = Message.objects.get(id=message_id)
+        context["message"] = message
+        return render(request, "reponse_message.html", context)
+
+    def post(self, request, message_id):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            message_original = Message.objects.get(id=message_id)
+            contenu = form.cleaned_data["message"]
+            nouveau_message = Message()
+            nouveau_message.contenu = contenu
+            nouveau_message.expediteur = message_original.receveur
+            nouveau_message.receveur = message_original.expediteur
+            nouveau_message.sujet = message_original.sujet
+            nouveau_message.date = now()
+            nouveau_message.save()
+            form = self.form_class(initial=self.initial)
+            context = {}
+            context["message"] = message_original
+            context["form"] = form
+            context["reussite"] = True
+            return render(
+                request, "reponse_message.html", context)
+
+
+class ProfilView(LoginRequiredMixin, View):
+    login_url = '/connexion/'
     form_class = ProfilForm
     initial = {}
 
@@ -209,7 +261,8 @@ class ProfilView(View):
         self.initial["notifications"] = utilisateur.notifications
 
 
-class TelechargementView(View):
+class TelechargementView(LoginRequiredMixin, View):
+    login_url = '/connexion/'
 
     def post(self, request):
         fichiers = request.FILES.getlist('file')

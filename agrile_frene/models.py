@@ -8,6 +8,7 @@ class Utilisateur(models.Model):
     """ Définit un utilisateur du système SOS Frêne """
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     notifications = models.BooleanField(default=False)
+    admin = models.BooleanField(default=False)
 
 class Message(models.Model):
     """ Définit un message envoyé par un utilisateur """
@@ -15,6 +16,7 @@ class Message(models.Model):
     expediteur = models.ForeignKey(Utilisateur, related_name="+")
     receveur = models.ForeignKey(Utilisateur, related_name="+")
     contenu = models.CharField(max_length=1000)
+    sujet = models.CharField(max_length=80, default=None)
 
 class Localisation(models.Model):
     """ Définit un emplacement géographique """
@@ -32,7 +34,7 @@ class Activite(models.Model):
     date = models.DateTimeField()
     type = models.CharField(max_length=50)
     description = models.CharField(max_length=500)
-    specimen = models.ForeignKey(Specimen)
+    specimen = models.ForeignKey(Specimen, related_name="activites")
 
 class Signalement(models.Model):
     """ Définit les Signalements de spécimen faites
@@ -43,7 +45,8 @@ class Signalement(models.Model):
     utilisateur = models.ForeignKey(Utilisateur)
     localisation = models.ForeignKey(Localisation)
     accepte = models.BooleanField(default=False)
-    specimen = models.ForeignKey(Specimen, null=True)
+    specimen = models.ForeignKey(
+        Specimen, null=True, related_name="signalement")
 
 class Photo(models.Model):
     """ Définit une photo soumise par un utilisateur """
