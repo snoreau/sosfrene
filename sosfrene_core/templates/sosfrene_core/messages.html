@@ -1,0 +1,28 @@
+    <div class="row">
+        <div class="col-md-12 col-xs-12">
+            <ul class="breadcrumb">
+                <li class="active">Messages</li>
+            </ul>
+
+            <h2>Messages</h2>
+
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                    {% for entete in entetes %}
+                        <th>{{entete}}</th>
+                    {% endfor %}
+                    </tr>
+                </thead>
+                <tbody>
+                {% for message in messages %}
+                    <tr class="ligne-lien" data-href="{% url route_base|add:'details_message' message.id %}">
+                        <td>{{ message.date|date:"Y/m/d" }}</td>
+                        <td>{{ message.expediteur.user.get_full_name }}</td>
+                        <td>{{ message.sujet }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>

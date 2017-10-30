@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block titre %} S.O.S Frêne - Ville de Montréal - Le frêne {% endblock %}
+
+{% block contenu %}
+
+    <div class="row marge-haut">
+        <div class="col-md-12 col-xs-12">
+            <h2>Les symptômes</h2>
+            <h3>Détecter la présence de l'agrile du frêne</h3>
+            <p>
+            L'agrile du frêne s'attaque uniquement aux frênes du genre Fraxinus. Cela ne comprend pas le sorbier d'Amérique.
+            Une bonne partie des dommages causés aux arbres sont attribuables aux larves de l'agrile du frêne, qui détruisent
+            la couche sous l'écorce (le cambium) responsable de transporter les éléments nutritifs et l'eau dans l'arbre.</p>
+            <p>
+            Lorsque ce système est bloqué, un arbre en santé peut mourir en deux à cinq ans, selon son âge et l'étendue de
+             l'infestation. Les dommages causés par les larves sont évidents sous l'écorce. Les larves qui s'alimentent
+             creusent des galeries en forme de serpentin (en forme de S) dans le bois.
+            </p>
+            <p>
+            Les signes d'infestation par l'agrile du frêne se manifestent normalement lorsque l'arbre est gravement infesté.
+             Les signes peuvent inclure la diminution de la couleur verte dans les feuilles au sommet (chlorose) et le
+              dégarnissement et le dépérissement de la cime.
+            </p>
+            <p>
+             Au fur et à mesure que l'infestation continue, des pousses (pousses adventives) peuvent se développer sur les racines,
+              le tronc ou les branches, dans le but de trouver de nouvelles façons de transporter les éléments nutritifs.
+            Cependant, la cime continue de dépérir et l'arbre finit par mourir.
+            </p>
+            <p>
+            Les coléoptères adultes émergent généralement de l'arbre en mai, en créant des petits trous de sortie en forme
+             de D. Ces adultes s'envolent au prochain frêne et s'alimentent des feuilles jusqu'à ce qu'ils pondent des
+            oeufs sur l'écorce. Ces oeufs deviennent des larves et le cycle recommence.
+            </p>
+
+            <a href="{% static '/img/symp01.jpg' %}">
+                <img class="image-info" src="{% static '/img/symp01.jpg' %}">
+            </a>
+            <a href="{% static '/img/symp02.jpg' %}">
+                <img class="image-info" src="{% static '/img/symp02.jpg' %}">
+            </a>
+            <a href="{% static '/img/symp03.jpg' %}">
+                <img class="image-info" src="{% static '/img/symp03.jpg' %}">
+            </a>
+        </div>
+    </div>
+
+{% endblock %}

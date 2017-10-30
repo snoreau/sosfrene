@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block titre %} S.O.S Frêne - Ville de Montréal - Nouveau signalement {% endblock %}
+
+{% block styles %}
+    {{ block.super }}
+    <link href="{% static 'css/dropzone.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block contenu %}
+
+    <div class="row">
+        <div class="col-md-12 col-xs-12">
+            {% if reussite %}
+            <div class="alert alert-success fade in" role="alert">
+                Votre signalement a été bien enregistré. Merci de votre participation!
+                <button type="button" class="close" data-dismiss="alert" aria-label="Fermer">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            {% elif erreur %}
+            <div class="alert alert-danger fade in" role="alert">
+                Une erreur est survenue pendant le traitement de votre signalement.
+                <button type="button" class="close" data-dismiss="alert" aria-label="Fermer">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="row">
+        <ul class="breadcrumb">
+            <li><a href="{% url 'client:signalements' %}">Signalements</a></li>
+            <li class="active">Nouveau</li>
+        </ul>
+
+        <div class="col-md-12 col-xs-12">
+            <h2>Nouveau signalement</h2>
+            <p>Afin de pouvoir soumettre votre signalement, vous devez nous permettre d'obtenir votre
+                localisation.
+            </p>
+            <button id="btn-localisation" class="btn btn-default">partager ma localisation</button>
+            <br>
+            <span id="message-localisation"></span>
+            <hr>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6 col-xs-12">
+        {% load crispy_forms_tags %}
+        {% crispy form %}
+        </div>
+        <div class="col-md-6 col-xs-12 marge-haut">
+            <div id="dropzone-div">
+                <form class="dropzone" action="{% url 'client:telechargement' %}" id="photos-form" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="dropzone-previews"></div>
+                    <div class="fallback">
+                        <input name="image_file" type="file" multiple />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12 col-xs-12">
+            <button id="btn-soumettre-signalement" type="submit" class="btn btn-primary" disabled>Soumettre</button>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block scripts %}
+    {{ block.super }}
+    <script src="{% static 'js/dropzone.js' %}"></script>
+    <script src="{% static 'js/nouveau_signalement.js' %}"></script>
+{% endblock %}

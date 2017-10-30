@@ -1,0 +1,46 @@
+{% extends "sosfrene_admin/base.html" %}
+{% load static %}
+
+{% block titre %} S.O.S Frêne - Ville de Montréal - Nouvelle activité {% endblock %}
+
+{% block contenu %}
+
+    <div class="row">
+        <div class="col-md-12 col-xs-12">
+            {% if reussite %}
+            <div class="alert alert-success fade in" role="alert">
+                L'activité a été enregistré.
+                <button type="button" class="close" data-dismiss="alert" aria-label="Fermer">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            {% elif erreur %}
+            <div class="alert alert-danger fade in" role="alert">
+                Une erreur est survenue pendant l'enregistrement.
+                <button type="button" class="close" data-dismiss="alert" aria-label="Fermer">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12 col-xs-12">
+            <ul class="breadcrumb">
+                <li><a href="{%  url route_base|add:'specimens' %}">Spécimens</a></li>
+                <li><a href="{%  url route_base|add:'details_specimen' specimen.id %}">{{ specimen.id }}</a></li>
+                <li class="active">Nouvelle activité</li>
+            </ul>
+
+            <h2>Nouvelle activité</h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6 col-xs-12">
+        {% load crispy_forms_tags %}
+        {% crispy form %}
+        </div>
+    </div>
+
+{% endblock %}

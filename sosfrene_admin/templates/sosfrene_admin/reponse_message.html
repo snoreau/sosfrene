@@ -1,0 +1,15 @@
+{% extends "sosfrene_admin/base.html" %}
+{% load static %}
+
+{% block titre %} S.O.S Frêne - Ville de Montréal - Composer un message {% endblock %}
+
+{% block contenu %}
+
+{% include "sosfrene_core/reponse_message.html" %}
+
+{% endblock %}
+
+{% block scripts %}
+    {{ block.super }}
+    <script src="{% static 'js/traiter_message.js' %}"></script>
+{% endblock %}

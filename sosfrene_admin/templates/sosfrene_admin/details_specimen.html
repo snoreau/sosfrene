@@ -1,0 +1,56 @@
+{% extends "sosfrene_admin/base.html" %}
+{% load static %}
+
+{% block titre %} S.O.S Frêne - Ville de Montréal - Détails du spécimen {% endblock %}
+
+{% block contenu %}
+
+<div class="row">
+    <div class="col-md-12 col-xs-12">
+        {% if reussite %}
+        <div class="alert alert-success fade in" role="alert">
+            Le spécimen a été enregistré.
+            <button type="button" class="close" data-dismiss="alert" aria-label="Fermer">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        {% elif erreur %}
+        <div class="alert alert-danger fade in" role="alert">
+            Une erreur est survenue pendant l'enregistrement.
+            <button type="button" class="close" data-dismiss="alert" aria-label="Fermer">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12 col-xs-12">
+        <ul class="breadcrumb">
+            <li><a href="{% url route_base|add:'specimens' %}">Spécimens</a></li>
+            <li class="active">{{ specimen.id }}</li>
+        </ul>
+
+        <h2>Détails du spécimen</h2>
+        <p>État: {{ specimen.etat }} <br>
+        Latitude: {{ specimen.localisation.latitude }}<br>
+        Longitude: {{ specimen.localisation.longitude }}
+        </p>
+
+        <a href="{% url route_base|add:'activite' specimen.id %}" class="btn btn-primary btn-large">Ajouter une activité</a>
+
+        <hr>
+        <h3>Activités</h3>
+        <br>
+        {% for activite in activites %}
+            <div class="well well-lg">
+                <p><strong>{{ activite.date|date:"Y/m/d" }}</strong><br>État: {{ activite.specimen.etat }}<br>
+                    Description:<br><br> {{ activite.description }}
+                </p>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}

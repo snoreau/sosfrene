@@ -1,0 +1,15 @@
+{% extends "sosfrene_admin/base.html" %}
+{% load static %}
+
+{% block titre %} S.O.S Frêne - Ville de Montréal - Mes messages {% endblock %}
+
+{% block contenu %}
+
+{% include "sosfrene_core/messages.html" %}
+
+{% endblock %}
+
+{% block scripts %}
+    {{ block.super }}
+    <script src="{% static 'js/ouvrir_lien.js' %}"></script>
+{% endblock %}

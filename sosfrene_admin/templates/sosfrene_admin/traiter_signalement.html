@@ -1,0 +1,76 @@
+{% extends "sosfrene_admin/base.html" %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block titre %} S.O.S Frêne - Ville de Montréal - Traitement du signalement {% endblock %}
+
+{% block contenu %}
+
+    <div class="row">
+        <div class="col-md-12 col-xs-12">
+            <ul class="breadcrumb">
+                <li><a href="{% url 'admin:signalements' %}">Signalements</a></li>
+                <li><a href="/admin/signalements/{{ signalement.id }}">{{ signalement.id }}</a></li>
+                <li class="active">Traitement</li>
+            </ul>
+
+            {% if traiter %}
+            <div class="alert alert-success fade in" role="alert">
+                Le traitement du signalement a été enregistré.
+                <button type="button" class="close" data-dismiss="alert" aria-label="Fermer">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            {% else %}
+            <h2>Traitement du signalement</h2>
+
+            <div class="row">
+                <form id="form-traitement" action="{% url 'admin:traiter_signalement' signalement.id  %}" method="post">
+                {% csrf_token %}
+                {{ form.statut_specimen|attr:"id:statut-specimen" }}
+                    <div class="col-md-7 col-xs-12">
+                        <fieldset>
+                            <legend>Informations</legend>
+                            <label>Date d'envoi: {{ signalement.date|date:"Y/m/d" }}</label>
+                            <br>
+                            <label>Soumis par: {{ utilisateur.user.get_full_name }}</label>
+                            <br>
+                            <label>Message pour l'utilisateur:</label>
+                            <br>
+                            <div id="conteneur-message" class="form-group has-feedback">
+                                {{ form.message|attr:"cols:40"|attr:"rows:10"|attr:"id:ta-message"|add_class:"textarea form-control" }}
+                                <span class="help-block invisible">Vous devez entrer un message.</span>
+                            </div>
+                        </fieldset>
+                        <br>
+                    </div>
+                    <div class="col-md-5 col-xs-12">
+                        <fieldset id="fs-specimen">
+                            <legend>Détails du spécimen</legend>
+                            <label>Latitude: {{ signalement.localisation.latitude }}</label>
+                            <br>
+                            <label>Longitude: {{ signalement.localisation.longitude }}</label>
+                            <br>
+                            <label>État: atteint</label>
+                            <br>
+
+                            <label id="label-statut">Statut: à confirmer</label>
+                        </fieldset>
+                        <br>
+                        <button type="button" id="btn-confirmer-specimen" class="btn btn-default">Confirmer le spécimen</button>
+                    </div>
+            </div>
+                <hr>
+                <button id="btn-soumettre-traitement" type="button" class="btn btn-primary btn-large">Soumettre</button>
+                </form>
+            {% endif %}
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block scripts %}
+    {{ block.super }}
+    <script src="{% static 'js/traiter_signalement.js' %}"></script>
+{% endblock %}
+

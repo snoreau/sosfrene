@@ -1,0 +1,415 @@
+@import "_variables-app";
+@import "_variables";
+@import "_bootstrap";
+@import "_bootswatch";
+@import "font-awesome";
+@import "_couleurs";
+
+body {
+    display: flex;
+    justify-content: start;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+footer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    height: $footer-height;
+    color: $navbar-inverse-color;
+    background-color: $navbar-inverse-bg;
+}
+
+p {
+    margin: 20px 0;
+}
+
+h1 {
+    font-size: $h1-size;
+}
+
+h2 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+}
+
+h3 {
+    margin-top: 0;
+}
+
+fieldset {
+    margin-top: 10px;
+}
+
+legend {
+    margin-bottom: 25px;
+}
+
+label {
+    font-size: $font-normal;
+}
+
+table {
+    width: 100%;
+}
+
+td, th {
+    padding-left: 10px;
+}
+
+ol {
+    margin-top: 20px;
+}
+
+ol li {
+    line-height: 24px;
+    margin-bottom: 10px;
+}
+
+a.navbar-brand > i {
+    margin-top: 0;
+}
+
+nav.container-fluid {
+    display: flex;
+}
+
+img {
+    border: 1px solid $gray;
+}
+
+.marge-haut {
+    margin-top: 25px;
+}
+
+.visuel-accueil {
+    border: 1px solid $gray;
+}
+
+.logo {
+    width: $logo-width;
+}
+
+.image-info {
+    object-fit: cover;
+    width: 250px;
+    height: 250px;
+    margin-right: 25px;
+}
+
+.btn-primaire {
+    background-color: $brand-primary !important;
+}
+
+.conteneur-principal {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    flex: 1;
+    margin: $marge-conteneur-principal;
+}
+
+.conteneur-principal-centre {
+    @extend .conteneur-principal;
+    justify-content: center;
+}
+
+.conteneur-centre {
+    border: 1px solid #cccccc;
+    display: flex;
+    align-self: center;
+    flex-direction: column;
+    justify-content: center;
+    padding: 30px;
+    width: $largeur-connexion;
+}
+
+.conteneur-footer-gauche {
+    margin-left: $marge-item-footer;
+    align-self: center;
+
+    p {
+        font-size: $font-small;
+        margin: 0;
+    }
+}
+
+.conteneur-footer-droite {
+    align-self: center;
+    margin-right: $marge-item-footer;
+}
+
+.ligne-lien {
+    cursor: pointer;
+}
+
+.ligne-lien:hover {
+    color: $brand-primary;
+}
+
+.lien-inverse {
+    font-size: $font-small;
+    color: #ffffff;
+    text-decoration: underline;
+}
+
+.lien-inverse:hover {
+    color: #bbbbbb;
+}
+
+.item-mobile {
+    font-size: $font-small;
+}
+
+.btn {
+    text-transform: uppercase;
+}
+
+.navbar-brand {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-left: 20px;
+}
+
+nav.navbar.navbar-inverse {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.carousel {
+    overflow: hidden;
+    height: 250px;
+}
+
+.carousel-caption {
+    top: 50%;
+    transform: translateY(-50%);
+    bottom: initial;
+}
+
+ul.nav.navbar-nav li {
+    text-transform: uppercase;
+}
+
+.asteriskField {
+    color: red;
+}
+
+.file-browser {
+    margin-bottom: 15px;
+}
+
+.erreur {
+    color: $couleur-erreur;
+}
+
+.reussite {
+    color: $couleur-reussite;
+}
+
+.invisible {
+    visibility: hidden;
+    display: none;
+}
+
+.visible {
+    visibility: visible;
+    display: inline-block;
+}
+
+.btn-large {
+    padding-left: 50px;
+    padding-right: 50px;
+}
+
+.message {
+    min-height: 100px;
+    padding: 10px 10px;
+    margin-bottom: 10px;
+    background-color: $gray-lighter;
+}
+
+.image-signalement {
+    image-orientation: from-image;
+    max-height: $largeur-image;
+    border: 1px solid $gray;
+    margin-right: 20px;
+    margin-bottom: 20px;
+}
+
+.nombre-notification {
+    position: absolute;
+    background-color: $couleur-erreur;
+    color: #fff;
+    top: 5px;
+    margin-left: 10px;
+    line-height: 20px;
+    width: 20px;
+    height: 20px;
+    border-radius: 10px;
+    text-align: center;
+    font-size: small;
+}
+
+.nombre-notification-desktop {
+    @extend .nombre-notification;
+    position: relative;
+    float: left;
+    top: 0;
+    margin-right: 5px;
+}
+
+#btn-localisation {
+    margin-bottom: 10px;
+}
+
+#btn-enregistrer-profil {
+    margin-top: 10px;
+}
+
+#btn-traiter-signalement {
+    margin-bottom: 20px;
+}
+
+#caroussel {
+    -webkit-box-shadow: 1px 3px 23px -7px rgba(0,0,0,0.78);
+    -moz-box-shadow: 1px 3px 23px -7px rgba(0,0,0,0.78);
+    box-shadow: 1px 3px 23px -7px rgba(0,0,0,0.78);
+}
+
+#map {
+    border: 1px solid $gray-light;
+    height: 400px;
+    width: 100%;
+}
+
+.overlay {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: #000;
+    opacity: 0.3;
+    transition: all 0.2s ease-out;
+}
+
+.flottant {
+    position:fixed;
+    right: 50px;
+    bottom: 50px;
+    -webkit-box-shadow: 1px 3px 23px -7px rgba(0,0,0,0.78);
+    -moz-box-shadow: 1px 3px 23px -7px rgba(0,0,0,0.78);
+    box-shadow: 1px 3px 23px -7px rgba(0,0,0,0.78);
+}
+
+@media only screen and (max-width: $screen-sm-max) {
+    .conteneur-principal {
+        margin: 15px;
+    }
+
+    .conteneur-centre {
+        padding: 10px;
+    }
+
+    .conteneur-footer-gauche {
+        margin-left: $marge-item-footer-xs;
+
+        p {
+            width: $largeur-texte-footer;
+        }
+    }
+
+    .conteneur-footer-droite {
+        margin-right: $marge-item-footer-xs;
+    }
+
+    h1 {
+        font-size: $h1-size * 0.75;
+    }
+
+    #btn-soumettre-signalement {
+        margin-top: 20px;
+    }
+}
+
+@media only screen and (max-width: 480px) {
+    .dropdown-menu {
+        width: 100vw;
+        min-width: 100vw;
+    }
+
+    nav .container {
+        padding: 0;
+    }
+
+    .conteneur-centre {
+        align-self: stretch;
+        border: none;
+        padding: 10px;
+        width: auto;
+    }
+
+    .conteneur-principal-centre {
+        margin: 0;
+    }
+
+    .marge-haut {
+        margin-top: 10px;
+    }
+
+    .carousel {
+        overflow: hidden;
+        height: 150px;
+    }
+
+    .navbar-brand {
+        padding-left: 0;
+    }
+
+    nav.navbar.navbar-inverse {
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    h1 {
+        font-size: $h1-size * 0.5;
+    }
+
+    h2 {
+        font-size: $h2-size * 0.5;
+    }
+
+    p {
+        margin: 5px 0;
+    }
+
+    .image-signalement {
+        max-height: $largeur-image * 0.5;
+    }
+
+    #btn-soumettre-signalement {
+        width: 100%;
+        margin-top: 15px;
+    }
+
+    #btn-soumettre-message {
+        width: 100%;
+    }
+
+    #btn-repondre {
+        width: 100%;
+    }
+
+    #btn-enregistrer-profil {
+        width: 100%;
+    }
+}
+
+@media only screen and (max-width: $screen-md-max) and
+    (min-width: $screen-md-min) {
+    h1 {
+        font-size: $h1-size * 0.75;
+    }
+}

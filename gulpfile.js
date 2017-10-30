@@ -8,7 +8,7 @@ var config = {
     datePicker: '"./node_modules/bootstrap-datepicker/dist/js/*',
     modernizr: './node_modules/modernizr/lib/modernizr.js',
     overlay: './node_modules/gasparesganga-jquery-loading-overlay/src/loadingoverlay.min.js',
-    compile: './agrile_frene/static',
+    compile: './sosfrene_client/static',
     fa: './node_modules/font-awesome'
 };
 

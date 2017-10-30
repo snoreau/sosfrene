@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block titre %} S.O.S Frêne - Ville de Montréal - Le frêne {% endblock %}
+
+{% block contenu %}
+
+    <div class="row marge-haut">
+        <div class="col-md-12 col-xs-12">
+            <h2>Spécimens répertoriés</h2>
+            <div id="map"></div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block scripts %}
+    {{ block.super }}
+    <script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCjfCx9tnmDutlM2UNb0tVBDL6K5ZNfteo&callback=initMap">
+    </script>
+    <script src="{% static 'js/sosfrene_client/carte.js' %}"></script>
+{% endblock %}

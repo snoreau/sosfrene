@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    {% load static %}
+    <title>{% block titre %}{% endblock %}</title>
+
+    {% block styles %}
+    <link href="{% static 'css/app.css' %}" rel="stylesheet">
+    {% endblock %}
+</head>
+<body>
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">
+                <img class="logo" src="{% static 'img/logo.png'%}">
+            </a>
+
+            {% if user.is_authenticated %}
+            <a href="#" class="dropdown-toggle visible-xs item-mobile navbar-brand" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                <i class="fa fa-user-circle fa-2x" aria-hidden="true"><div id="notification-mobile" class="nombre-notification invisible"></div></i>
+            </a>
+                {% include menu_utilisateur %}
+            {% else %}
+            <a class="navbar-brand visible-xs item-mobile" href="{% url 'client:connexion' %}"><i class="fa fa-sign-in" aria-hidden="true"></i> Se connecter</a>
+            {% endif %}
+
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#menu-collapse" aria-expanded="false" aria-controls=".navbar-collapse">
+                    <span class="sr-only">Toggle Navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            </div>
+
+            <div id="menu-collapse" class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li {% if menu == "carte" %} class="active" {% endif %}><a href="{% url 'client:carte' %}"><i class="fa fa-map" aria-hidden="true"></i> Carte</a></li>
+                    <li {% if menu == "frene" %} class="active" {% endif %}><a href="{% url 'client:frene' %}"><i class="fa fa-pagelines" aria-hidden="true"></i> Le frêne</a></li>
+                    <li {% if menu == "agrile" %} class="active" {% endif %}><a href="{% url 'client:agrile' %}"><i class="fa fa-bug" aria-hidden="true"></i> L'agrile</a></li>
+                    <li {% if menu == "symptomes" %} class="active" {% endif %}><a href="{% url 'client:symptomes' %}"><i class="fa fa-medkit" aria-hidden="true"></i> Les symptômes</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    {% if user.is_authenticated %}
+                    <li class="dropdown hidden-xs">
+                        <a href="#" class="dropdown-toggle hidden-xs" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                            {{ user.get_full_name }} <span class="caret"></span>
+                            <div id="notification-desktop" class="nombre-notification-desktop invisible"></div>
+                        </a>
+                        {% include menu_utilisateur %}
+                    </li>
+                    {% else %}
+                    <li class="hidden-xs"><a href="{% url 'client:connexion' %}"><i class="fa fa-sign-in" aria-hidden="true"></i> Se connecter</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    {% block conteneur %}
+    <div class="conteneur-principal">
+        {% block contenu %}
+        {% endblock %}
+    </div>
+    {% endblock %}
+
+    {% block pied-de-page %}
+    <footer>
+        <div class="conteneur-footer-gauche">
+            <p>Tous droits réservés. S.O.S&nbsp;Frêne&nbsp;&copy;&nbsp;2017</p>
+        </div>
+        <div class="conteneur-footer-droite">
+            <a class="lien-inverse" href="/contact">Contact</a>
+        </div>
+    </footer>
+    {% endblock %}
+
+    {% block scripts %}
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <script src="{% static 'js/loadingoverlay.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.js' %}"></script>
+    <script src="{% static 'js/bootstrap-notify.min.js' %}"></script>
+    <script src="{% static 'js/alert-options.js' %}"></script>
+    {% endblock %}
+</body>
+</html>

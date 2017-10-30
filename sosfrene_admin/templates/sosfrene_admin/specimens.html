@@ -1,0 +1,75 @@
+{% extends "sosfrene_admin/base.html" %}
+{% load static %}
+
+{% block titre %} S.O.S Frêne - Ville de Montréal - Spécimens {% endblock %}
+
+{% block styles %}
+    {{ block.super }}
+    <link href="{% static 'css/buttons.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block contenu %}
+
+    <div class="row">
+        <div class="col-md-12 col-xs-12">
+            {% if supprimer %}
+            <div class="alert alert-success fade in" role="alert">
+                Le spécimen numéro {{ id }} a été supprimé.
+                <button type="button" class="close" data-dismiss="alert" aria-label="Fermer">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            {% endif %}
+
+            <ul class="breadcrumb">
+                <li class="active">Spécimens</li>
+            </ul>
+
+            <h2>Spécimens</h2>
+
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                    {% for entete in entetes %}
+                        <th>{{entete}}</th>
+                    {% endfor %}
+                    </tr>
+                </thead>
+                <tbody>
+                {% for specimen in specimens %}
+                    <tr>
+                        <td>{{ specimen.localisation.latitude|floatformat:5 }}
+                            <br>
+                            {{ specimen.localisation.longitude|floatformat:5 }}
+                        </td>
+                        <td>{{ specimen.etat }}</td>
+                        {% if specimen.signalement.get %}
+                            <td>{{ specimen.signalement.get.id }}</td>
+                        {% else %}
+                            <td>Aucun</td>
+                        {% endif %}
+                        <td>
+                            <a href="{% url route_base|add:'details_specimen' specimen.id %}" class="btn btn-default">
+                                <i class="fa fa-info"></i> Détails
+                            </a>
+                            <a href="{% url route_base|add:'supprimer_specimen' specimen.id %}" class="btn btn-default">
+                                <i class="fa fa-remove"></i> Supprimer
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <a href="{% url 'admin:nouveau_specimen' %}" class="button btn-primaire button-circle button-jumbo flottant">
+        <i style="color: #fff;" class="fa fa-plus"></i>
+    </a>
+
+{% endblock %}
+
+{% block scripts %}
+    {{ block.super }}
+    <script src="{% static 'js/ouvrir_lien.js' %}"></script>
+{% endblock %}
