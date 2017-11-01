@@ -15,7 +15,7 @@
 <body>
     <nav class="navbar navbar-inverse">
         <div class="container-fluid">
-            <a class="navbar-brand" href="/">
+            <a class="navbar-brand" href="/admin">
                 <img class="logo" src="{% static 'img/logo.png'%}">
             </a>
 
@@ -41,7 +41,7 @@
                     <li{% if menu == "signalements" %} class="active" {% endif %}><a href="{% url 'admin:signalements' %}">Signalements</a></li>
                     <li{% if menu == "specimens" %} class="active" {% endif %}><a href="{% url 'admin:specimens' %}">Spécimens</a></li>
                     <li{% if menu == "messages" %} class="active" {% endif %}><a href="{% url 'admin:messages' %}">Messages</a></li>
-                    <li{% if menu == "utilisateurs" %} class="active" {% endif %}><a href="{% url 'admin:gestion' %}">Administrateurs</a></li>
+                    <li{% if menu == "gestion" %} class="active" {% endif %}><a href="{% url 'admin:gestion' %}">Administrateurs</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     {% if user.is_authenticated %}
@@ -77,7 +77,6 @@
 
     {% block scripts %}
     <script src="{% static 'js/jquery.min.js' %}"></script>
-    <script src="{% static 'js/loadingoverlay.min.js' %}"></script>
     <script src="{% static 'js/bootstrap.js' %}"></script>
     <script src="{% static 'js/bootstrap-notify.min.js' %}"></script>
     <script src="{% static 'js/alert-options.js' %}"></script>

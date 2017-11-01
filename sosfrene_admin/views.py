@@ -9,15 +9,17 @@ from sosfrene_client.forms import (
     ConnexionForm, MessageForm, SpanRequiredForm
 )
 from sosfrene_admin.forms import (
-    EnregistrementForm, ProfilForm, TraiterSignalementForm,
+    EnregistrementForm, TraiterSignalementForm,
     SpecimenForm, NouvelleActiviteForm
 )
 from sosfrene_client.forms import MessageForm
 from sosfrene_admin.constants import ADMIN_BASE, ADMIN_LOGIN_URL
+from sosfrene_core.api import (
+    messages_utilisateur, envoyer_message, creer_activite
+)
+from sosfrene_core.constants import ETATS_SPECIMEN, ATTEINT
 from sosfrene_core.models import (
     Utilisateur, Photo, Signalement, Message, Activite, Specimen, Localisation)
-from sosfrene_core.api import messages_utilisateur
-from sosfrene_core.constants import ETATS_SPECIMEN, ATTEINT
 
 
 class AdminView(View):
@@ -46,6 +48,16 @@ class TableauBordView(LoginRequiredMixin, AdminView):
         context["menu"] = "tableau"
         return render(
             request, ADMIN_BASE + "tableau_bord.html", context)
+
+
+class AdministrateursView(LoginRequiredMixin, AdminView):
+    login_url = ADMIN_LOGIN_URL
+
+    def get(self, request):
+        context = self.get_context_data()
+        context["menu"] = "gestion"
+        return render(
+            request, ADMIN_BASE + "administrateurs.html", context)
 
 
 class ConnexionView(AdminView):
@@ -244,14 +256,9 @@ class ReponseMessageView(LoginRequiredMixin, AdminView):
         form = self.form_class(request.POST)
         if form.is_valid():
             message_original = Message.objects.get(id=message_id)
-            contenu = form.cleaned_data["message"]
-            nouveau_message = Message()
-            nouveau_message.contenu = contenu
-            nouveau_message.expediteur = message_original.receveur
-            nouveau_message.receveur = message_original.expediteur
-            nouveau_message.sujet = form.cleaned_data["sujet"]
-            nouveau_message.date = now()
-            nouveau_message.save()
+            envoyer_message(message_original.receveur, message_original.expediteur,
+                            form.cleaned_data["sujet"],
+                            form.cleaned_data["message"])
             form = self.form_class(initial=self.initial)
             context = self.get_context_data()
             context["message"] = message_original
@@ -359,14 +366,11 @@ class TraiterSignalementView(LoginRequiredMixin, AdminView):
             activite.description = "Spécimen associé au signalement."
         signalement.save()
 
-        message = form.cleaned_data["message"]
-        message_signalement = Message()
-        message_signalement.date = now()
-        message_signalement.expediteur = Utilisateur.objects.get(user=user)
-        message_signalement.receveur = signalement.utilisateur
-        message_signalement.contenu = message
-        message_signalement.sujet = "Traitement du signalement"
-        message_signalement.save()
+        envoyer_message(Utilisateur.objects.get(user=user),
+                        signalement.utilisateur,
+                        "Traitement de votre signalement",
+                        form.cleaned_data["message"])
+
 
 class NouvelleActiviteView(LoginRequiredMixin, AdminView):
     login_url = ADMIN_LOGIN_URL
@@ -392,11 +396,7 @@ class NouvelleActiviteView(LoginRequiredMixin, AdminView):
                 specimen = Specimen.objects.get(id=specimen_id)
                 specimen.etat = ETATS_SPECIMEN[int(form.cleaned_data["etat"])]
                 specimen.save()
-                activite = Activite()
-                activite.specimen = specimen
-                activite.date = now()
-                activite.description = form.cleaned_data["description"]
-                activite.save()
+                creer_activite(form.cleaned_data["description"], specimen)
                 context["reussite"] = True
                 form = self.form_class(initial=self.initial)
                 context["form"] = form
@@ -406,35 +406,3 @@ class NouvelleActiviteView(LoginRequiredMixin, AdminView):
                 context["form"] = form
                 return render(
                     request, ADMIN_BASE + "activite.html", context)
-
-
-
-class ProfilView(LoginRequiredMixin, AdminView):
-    login_url = ADMIN_LOGIN_URL
-    form_class = ProfilForm
-    initial = {}
-
-    def get(self, request):
-        self._remplir_initial(request.user)
-        form = self.form_class(initial=self.initial)
-        context = self.get_context_data()
-        context["form"] = form
-        context["user"] = request.user
-        context["menu"] = "profil"
-        return render(request, "profil.html", context)
-
-    def post(self, request):
-        form = self.form_class(request.POST)
-        if form.is_valid():
-            utilisateur = Utilisateur.objects.get(user=request.user)
-            utilisateur.notifications = form.cleaned_data["notifications"]
-            utilisateur.save()
-
-            self._remplir_initial(request.user)
-            form = self.form_class(initial=self.initial)
-            return render(request, "profil.html", {'form': form, "reussite": True})
-        return render(request, "profil.html", {'form': form})
-
-    def _remplir_initial(self, user):
-        utilisateur = Utilisateur.objects.get(user=user)
-        self.initial["notifications"] = utilisateur.notifications

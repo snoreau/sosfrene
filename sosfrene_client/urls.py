@@ -8,7 +8,7 @@ from sosfrene_client.views import (
     SignalementsView, DetailsSignalementView, NouveauSignalementView,
     MessagesView, DetailsMessageView, ReponseMessageView, ProfilView,
     TelechargementView, AccueilView, CarteView, FreneView, AgrileView,
-    SymptomesView, SpecimensCarteView
+    SymptomesView, SpecimensCarteView, NotificationsView
 )
 
 urlpatterns = [
@@ -23,6 +23,8 @@ urlpatterns = [
         name="enregistrement"),
     url(r'^connexion/$', ConnexionView.as_view(), name="connexion"),
     url(r'^deconnexion/$', DeconnexionView.as_view(), name="deconnexion"),
+    url(r'^notifications/$', NotificationsView.as_view(),
+        name="notifications"),
     url(r'^signalements/$', SignalementsView.as_view(), name="signalements"),
     url(r'^signalements/nouveau/$', NouveauSignalementView.as_view(),
         name="nouveau_signalement"),

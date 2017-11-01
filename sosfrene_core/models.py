@@ -67,6 +67,7 @@ class DetailSignalement(models.Model):
 
 class Notification(models.Model):
     """ Définit les alertes crées """
+    date = models.DateTimeField(null=True)
     description = models.CharField(max_length=500, blank=False, default="")
     utilisateur = models.ForeignKey(Utilisateur, null=True, blank=True)
     objects = models.Manager()

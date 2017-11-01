@@ -65,20 +65,6 @@ class TraiterSignalementForm(forms.Form):
         max_length=1000, required=False)
 
 
-class ProfilForm(forms.Form):
-    notifications = forms.BooleanField(
-        label="Reçevoir les notifications par courriel", required=False)
-
-    def __init__(self, *args, **kwargs):
-        super(ProfilForm, self).__init__(*args, **kwargs)
-        self.helper = FormHelper()
-        self.helper.form_id = 'form-profil'
-        self.helper.form_method = 'post'
-        self.helper.form_action = 'profil'
-        self.helper.add_input(Submit(
-            'submit', 'Enregistrer', css_id="btn-enregistrer-profil"))
-
-
 class SpecimenForm(SpanRequiredForm):
     etat = forms.ChoiceField(
         label="État", choices=list(ETATS_SPECIMEN.items()), required=False)

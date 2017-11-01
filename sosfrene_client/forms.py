@@ -134,6 +134,5 @@ class ProfilForm(forms.Form):
         self.helper = FormHelper()
         self.helper.form_id = 'form-profil'
         self.helper.form_method = 'post'
-        self.helper.form_action = 'profil'
         self.helper.add_input(Submit(
             'submit', 'Enregistrer', css_id="btn-enregistrer-profil"))

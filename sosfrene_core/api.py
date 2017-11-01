@@ -1,4 +1,5 @@
 from django.utils.timezone import now
+from django.core.mail import send_mail
 
 from sosfrene_core.models import (
     Utilisateur, Signalement, Message,
@@ -23,21 +24,30 @@ def messages_utilisateur(courriel):
     utilisateur = Utilisateur.objects.get(user__email=courriel)
     if utilisateur is not None:
         return list(
-            Message.objects.filter(receveur=utilisateur).order_by('-date'))
+            Message.objects.filter(receveur=utilisateur).order_by('date'))
 
-def creer_activite(type, description, specimen):
-    activite = Activite(now(), type, description, specimen)
+def creer_activite(description, specimen):
+    activite = Activite(date=now(), description=description, specimen=specimen)
     activite.save()
     signalement = specimen.signalement.get()
-    if signalement:
-        notification = Notification(activite)
+    if signalement is not None:
+        notification = Notification.objects.create(
+            utilisateur=signalement.utilisateur, date=now(),
+            description="Le spécimen associé au signalement que "
+            "vous avez fait a une nouvelle activité:\n\n" + description)
         notification.save()
+        if signalement.utilisateur.notifications:
+            envoyer_courriel(signalement.utilisateur.user.email,
+                             notification.description,
+                             "Notification de S.O.S Frêne")
 
 def notifications_utilisateur(courriel):
     utilisateur = Utilisateur.objects.get(user__email=courriel)
     if utilisateur is not None:
         notifications = Notification.objects.filter(
-            activite__specimen__signalement__utilisateur=utilisateur)
+            utilisateur=utilisateur)\
+                .order_by("-date")
+        return notifications
 
 def specimens_carte():
     nouvelle_liste = []
@@ -50,3 +60,22 @@ def specimens_carte():
         nouveau_dict["longitude"] = specimen.localisation.longitude
         nouvelle_liste.append(nouveau_dict)
     return nouvelle_liste
+
+def envoyer_courriel(adresse, message, sujet):
+    send_mail(sujet, message, "sosfrene@gmail.com",
+              [adresse], fail_silently=False)
+
+def envoyer_message(expediteur, receveur, sujet, message):
+    msg = Message.objects.create(date=now(), receveur=receveur,
+                                 expediteur=expediteur, sujet=sujet,
+                                 contenu=message)
+    msg.save()
+    notification = Notification.objects.create(
+        utilisateur=receveur, date=now(),
+        description="Nouveau message de la part de: {0}.\n"
+                    "Sujet: {1}\nContenu: \n\n{2}"\
+                    .format(expediteur.user.get_full_name(), sujet, message))
+    notification.save()
+    if receveur.notifications:
+        envoyer_courriel(receveur.user.email, notification.description,
+                         "Notification de S.O.S Frêne")

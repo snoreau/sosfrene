@@ -16,7 +16,8 @@ from sosfrene_core.models import (
     DetailSignalement, Localisation
 )
 from sosfrene_core.api import (
-    signalements_utilisateur, messages_utilisateur, specimens_carte
+    signalements_utilisateur, messages_utilisateur,
+    specimens_carte, notifications_utilisateur
 )
 
 
@@ -114,7 +115,7 @@ class ConnexionView(View):
 
     def get(self, request):
         if request.user.is_authenticated():
-            return redirect("client:signalements")
+            return redirect("client:notifications")
 
         form = self.form_class(initial=self.initial)
         context = {}
@@ -128,7 +129,7 @@ class ConnexionView(View):
                                 password=form.cleaned_data["password"])
             if user is not None:
                 login(request, user)
-                return redirect("client:signalements")
+                return redirect("client:notifications")
             else:
                 return render(request, "connexion.html",
                               {'form': form, "erreur_mdp": True})
@@ -262,7 +263,7 @@ class ReponseMessageView(LoginRequiredMixin, ClientView):
             nouveau_message.contenu = contenu
             nouveau_message.expediteur = message_original.receveur
             nouveau_message.receveur = message_original.expediteur
-            nouveau_message.sujet = message_original.sujet
+            nouveau_message.sujet = form.cleaned_data["sujet"]
             nouveau_message.date = now()
             nouveau_message.save()
             form = self.form_class(initial=self.initial)
@@ -297,6 +298,7 @@ class ProfilView(LoginRequiredMixin, ClientView):
         return render(request, "profil.html", context)
 
     def post(self, request):
+        context = self.get_context_data()
         form = self.form_class(request.POST)
         if form.is_valid():
             utilisateur = Utilisateur.objects.get(user=request.user)
@@ -305,9 +307,10 @@ class ProfilView(LoginRequiredMixin, ClientView):
 
             self._remplir_initial(request.user)
             form = self.form_class(initial=self.initial)
-            return render(request, "profil.html",
-                          {'form': form, "reussite": True})
-        return render(request, "profil.html", {'form': form})
+            context["reussite"] = True
+            context["form"] = form
+            return render(request, "profil.html", context)
+        return render(request, "profil.html", context)
 
     def _remplir_initial(self, user):
         utilisateur = Utilisateur.objects.get(user=user)
@@ -335,3 +338,13 @@ class SpecimensCarteView(LoginRequiredMixin, ClientView):
         liste_specimens = specimens_carte()
         data = {"specimens": liste_specimens}
         return JsonResponse(data)
+
+
+class NotificationsView(LoginRequiredMixin, ClientView):
+
+    def get(self, request):
+        context = self.get_context_data()
+        context["menu"] = "notifications"
+        context["notifications"] =\
+            notifications_utilisateur(request.user.email)
+        return render(request, "notifications.html", context)

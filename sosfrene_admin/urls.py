@@ -6,9 +6,9 @@ from django.conf.urls import url
 from sosfrene_admin.views import (
     TableauBordView, ConnexionView, DeconnexionView, SignalementsView,
     DetailsMessageView, DetailsSignalementView, TraiterSignalementView,
-    ActivitesView, SpecimensView, NouveauSpecimenView, MessagesView,
-    ReponseMessageView, UtilisateursView, ProfilView, DetailsSpecimenView,
-    SupprimerSpecimenView, NouvelleActiviteView
+    SpecimensView, NouveauSpecimenView, MessagesView,
+    ReponseMessageView, DetailsSpecimenView,
+    SupprimerSpecimenView, NouvelleActiviteView, AdministrateursView
 )
 
 
@@ -19,7 +19,6 @@ urlpatterns = [
         name="connexion"),
     url(r'^deconnexion/$', DeconnexionView.as_view(),
         name="deconnexion"),
-    url(r'^profil/$', ProfilView.as_view(), name="profil"),
     url(r'^signalements/$', SignalementsView.as_view(),
         name="signalements"),
     url(r'^signalements/(?P<signalement_id>[0-9]+)/$',
@@ -42,7 +41,7 @@ urlpatterns = [
         DetailsMessageView.as_view(), name="details_message"),
     url(r'^messages/(?P<message_id>[0-9]+)/reponse/$',
         ReponseMessageView.as_view(), name="reponse"),
-    url(r'^utilisateurs/$', UtilisateursView.as_view(),
+    url(r'^administrateurs/$', AdministrateursView.as_view(),
         name="gestion"),
     url(r'^specimens/(?P<specimen_id>[0-9]+)/nouvelle-activite/$', NouvelleActiviteView.as_view(),
         name="activite")

@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block titre %} S.O.S Frêne - Ville de Montréal - Mes notifications {% endblock %}
+
+{% block contenu %}
+
+    <div class="row">
+        <div class="col-md-12 col-xs-12">
+            <ul class="breadcrumb">
+                <li class="active">Notifications</li>
+            </ul>
+
+            <h2>Notifications</h2>
+            {% for notification in notifications %}
+            <div class="well well-lg">
+                <p><strong>{{ notification.date|date:"Y/m/d" }}</strong><br>
+                    Description:<br><br> {{ notification.description }}
+                </p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block scripts %}
+    {{ block.super }}
+    <script src="{% static 'js/ouvrir_lien.js' %}"></script>
+{% endblock %}
