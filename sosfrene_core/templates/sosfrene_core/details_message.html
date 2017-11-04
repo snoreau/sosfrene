@@ -16,7 +16,7 @@
                 <br>
                 <label>Sujet: {{ message.sujet }}</label>
                 <br>
-                <p class="message">{{ message.contenu }}</p>
+                <p class="message">{{ message.contenu|linebreaksbr }}</p>
             </fieldset>
             <a href="{% url route_base|add:'reponse' message.id %}" class="btn btn-primary">Répondre</a>
         </div>

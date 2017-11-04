@@ -11,11 +11,16 @@
                 <li class="active">Notifications</li>
             </ul>
 
+            {% csrf_token %}
             <h2>Notifications</h2>
+            {% if notifications|length == 0 %}
+            <p>Vous avez aucune nouvelle notification.</p>
+            {% endif %}
             {% for notification in notifications %}
-            <div class="well well-lg">
+            <div class="well well-lg" style="position: relative;">
+                <button data-notification="{{notification.id}}" title="Archiver" class="btn btn-default btn-coin-droit"><i class="fa fa-archive" aria-hidden="true"></i></button>
                 <p><strong>{{ notification.date|date:"Y/m/d" }}</strong><br>
-                    Description:<br><br> {{ notification.description }}
+                    Description:<br><br> {{ notification.description|linebreaksbr }}
                 </p>
             </div>
             {% endfor %}
@@ -27,4 +32,5 @@
 {% block scripts %}
     {{ block.super }}
     <script src="{% static 'js/ouvrir_lien.js' %}"></script>
+    <script src="{% static 'js/sosfrene_client/notifications.js' %}"></script>
 {% endblock %}

@@ -15,7 +15,7 @@ from sosfrene_admin.forms import (
 from sosfrene_client.forms import MessageForm
 from sosfrene_admin.constants import ADMIN_BASE, ADMIN_LOGIN_URL
 from sosfrene_core.api import (
-    messages_utilisateur, envoyer_message, creer_activite
+    messages_utilisateur, envoyer_message, creer_activite, ajouter_specimen
 )
 from sosfrene_core.constants import ETATS_SPECIMEN, ATTEINT
 from sosfrene_core.models import (
@@ -85,6 +85,9 @@ class ConnexionView(AdminView):
                 if utilisateur.admin:
                     login(request, user)
                     return redirect("admin:tableau_bord")
+                else:
+                    logout(request)
+                    redirect("admin:connexion")
             else:
                 context["erreur_mdp"] = True
                 return render(
@@ -100,54 +103,12 @@ class DeconnexionView(View):
         return redirect("admin:connexion")
 
 
-class ActivitesView(LoginRequiredMixin, AdminView):
-    login_url = ADMIN_LOGIN_URL
-
-    def get(self, request):
-        pass
-
-
-class UtilisateursView(LoginRequiredMixin, AdminView):
-    login_url = ADMIN_LOGIN_URL
-    form_class = EnregistrementForm
-    initial = {}
-
-    def get(self, request):
-        pass
-
-    def post(self, request):
-        form = self.form_class(request.POST)
-        if form.is_valid():
-            try:
-                user = User.objects.create_user(
-                    form.cleaned_data["email"],
-                    password=form.cleaned_data["password"])
-                nouvel_utilisateur = Utilisateur()
-                user.first_name = form.cleaned_data["first_name"]
-                user.last_name = form.cleaned_data["last_name"]
-                user.email = form.cleaned_data["email"]
-                user.save()
-                nouvel_utilisateur.user = user
-                nouvel_utilisateur.notifications = False
-                nouvel_utilisateur.save()
-            except Exception:
-                return render(
-                    request, "enregistrement.html",
-                    {'form': form, "erreur": True})
-
-            form = self.form_class(initial=self.initial)
-            return render(request, "enregistrement.html",
-                          {'form': form, "reussite": True})
-        return render(
-            request, "enregistrement.html", {'form': form})
-
-
 class SpecimensView(LoginRequiredMixin, AdminView):
     login_url = ADMIN_LOGIN_URL
 
     def get(self, request):
         context = self.get_context_data()
-        specimens = Specimen.objects.all()
+        specimens = list(Specimen.objects.all())
         context["specimens"] = specimens
         context["entetes"] = ["Localisation", "État", "Signalement"]
         context["menu"] = "specimens"
@@ -172,14 +133,9 @@ class NouveauSpecimenView(LoginRequiredMixin, AdminView):
         context["menu"] = "specimens"
         context["form"] = form
         if form.is_valid():
-            specimen = Specimen()
-            specimen.etat = ETATS_SPECIMEN[int(form.cleaned_data["etat"])]
-            localisation = Localisation()
-            localisation.latitude = form.cleaned_data["latitude"]
-            localisation.longitude = form.cleaned_data["longitude"]
-            localisation.save()
-            specimen.localisation = localisation
-            specimen.save()
+            ajouter_specimen(form.cleaned_data["etat"],
+                             form.cleaned_data["latitude"],
+                             form.cleaned_data["longitude"])
             context["reussite"] = True
             form = self.form_class(initial=self.initial)
             context["form"] = form
@@ -198,7 +154,8 @@ class DetailsSpecimenView(LoginRequiredMixin, AdminView):
         specimen = Specimen.objects.get(id=specimen_id)
         context["entetes"] = ["Date", "Nouvel état"]
         context["specimen"] = specimen
-        activites = Activite.objects.filter(specimen__id=specimen.id)
+        activites = list(Activite.objects.filter(
+            specimen__id=specimen.id).order_by("-date"))
         context["activites"] = activites
         context["menu"] = "specimens"
         self.initial["etat"] = specimen.etat
@@ -268,10 +225,11 @@ class ReponseMessageView(LoginRequiredMixin, AdminView):
                 request, ADMIN_BASE + "reponse_message.html", context)
 
     def get(self, request, message_id):
-        form = self.form_class(initial=self.initial)
         context = self.get_context_data()
-        context["form"] = form
         message = Message.objects.get(id=message_id)
+        self.initial["sujet"] = message.sujet
+        form = self.form_class(initial=self.initial)
+        context["form"] = form
         context["message"] = message
         context["menu"] = "messages"
         return render(request, ADMIN_BASE + "reponse_message.html", context)
@@ -288,7 +246,8 @@ class SignalementsView(LoginRequiredMixin, AdminView):
     def _fill_context(self, context):
         entetes = ["Date", "Localisation", "État", "# Spécimen"]
         context["entetes"] = entetes
-        context["signalements"] = Signalement.objects.all().order_by("-date")
+        context["signalements"] =\
+            list(Signalement.objects.all().order_by("-date"))
         context["menu"] = "signalements"
 
 
@@ -305,8 +264,8 @@ class DetailsSignalementView(LoginRequiredMixin, AdminView):
             signalement = Signalement.objects.get(id=signalement_id)
             context["menu"] = "signalements"
             context["signalement"] = signalement
-            photos = Photo.objects.filter(
-                detailsignalement__signalement=signalement)
+            photos = list(Photo.objects.filter(
+                detailsignalement__signalement=signalement))
             context["photos"] = photos
         except Signalement.DoesNotExist:
             return
@@ -355,16 +314,13 @@ class TraiterSignalementView(LoginRequiredMixin, AdminView):
         signalement.accepte = True
         confirme = form.cleaned_data["statut_specimen"]
         if confirme:
-            specimen = Specimen()
-            specimen.localisation = signalement.localisation
-            specimen.etat = ETATS_SPECIMEN[ATTEINT]
-            specimen.save()
-            signalement.specimen = specimen
-            activite = Activite()
-            activite.specimen = specimen
-            activite.date = now()
-            activite.description = "Spécimen associé au signalement."
-        signalement.save()
+            signalement.specimen =\
+                ajouter_specimen(ATTEINT, signalement.localisation.latitude,
+                                 signalement.localisation.longitude)
+            signalement.save()
+            creer_activite("Le spécimen a été associé au signalement "
+                           "et diagnostiqué comme étant atteint.",
+                           signalement.specimen)
 
         envoyer_message(Utilisateur.objects.get(user=user),
                         signalement.utilisateur,

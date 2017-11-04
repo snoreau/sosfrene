@@ -127,7 +127,7 @@ class MessageForm(SpanRequiredForm):
 
 class ProfilForm(forms.Form):
     notifications = forms.BooleanField(
-        label="Reçevoir les notifications par courriel", required=False)
+        label="Recevoir les notifications par courriel", required=False)
 
     def __init__(self, *args, **kwargs):
         super(ProfilForm, self).__init__(*args, **kwargs)

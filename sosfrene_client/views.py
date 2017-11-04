@@ -13,7 +13,7 @@ from sosfrene_client.forms import (
 )
 from sosfrene_core.models import (
     Utilisateur, Photo, Message, Signalement,
-    DetailSignalement, Localisation
+    DetailSignalement, Localisation, Notification
 )
 from sosfrene_core.api import (
     signalements_utilisateur, messages_utilisateur,
@@ -275,11 +275,12 @@ class ReponseMessageView(LoginRequiredMixin, ClientView):
                 request, "reponse_message.html", context)
 
     def get(self, request, message_id):
-        form = self.form_class(initial=self.initial)
         context = self.get_context_data()
         context["menu"] = "messages"
-        context["form"] = form
         message = Message.objects.get(id=message_id)
+        self.initial["sujet"] = message.sujet
+        form = self.form_class(initial=self.initial)
+        context["form"] = form
         context["message"] = message
         return render(request, "reponse_message.html", context)
 
@@ -348,3 +349,18 @@ class NotificationsView(LoginRequiredMixin, ClientView):
         context["notifications"] =\
             notifications_utilisateur(request.user.email)
         return render(request, "notifications.html", context)
+
+
+class ArchiverNotificationView(LoginRequiredMixin, ClientView):
+
+    def post(self, request):
+        try:
+            notification_id = request.POST["id"]
+            notification = Notification.objects.get(id=notification_id)
+            notification.archive = True
+            notification.save()
+        except Notification.DoesNotExist:
+            data = {"reussite": False}
+
+        data = {"reussite": True}
+        return JsonResponse(data)

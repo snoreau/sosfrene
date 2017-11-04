@@ -3,8 +3,10 @@ from django.core.mail import send_mail
 
 from sosfrene_core.models import (
     Utilisateur, Signalement, Message,
-    Activite, Notification, Specimen
+    Activite, Notification, Specimen, Localisation
 )
+from sosfrene_core.constants import ETATS_SPECIMEN
+
 
 def courriel_existe(courriel):
     utilisateurs = Utilisateur.objects.filter(user__email=courriel)
@@ -15,39 +17,47 @@ def courriel_existe(courriel):
         return False
 
 def signalements_utilisateur(courriel):
-    utilisateur = Utilisateur.objects.get(user__email=courriel)
-    if utilisateur is not None:
+    try:
+        utilisateur = Utilisateur.objects.get(user__email=courriel)
         return list(Signalement.objects.filter(utilisateur=utilisateur)\
             .order_by("-date"))
+    except Utilisateur.DoesNotExist:
+        return None
 
 def messages_utilisateur(courriel):
-    utilisateur = Utilisateur.objects.get(user__email=courriel)
-    if utilisateur is not None:
+    try:
+        utilisateur = Utilisateur.objects.get(user__email=courriel)
         return list(
-            Message.objects.filter(receveur=utilisateur).order_by('date'))
+            Message.objects.filter(receveur=utilisateur).order_by('-date'))
+    except Utilisateur.DoesNotExist:
+        return None
 
 def creer_activite(description, specimen):
     activite = Activite(date=now(), description=description, specimen=specimen)
     activite.save()
-    signalement = specimen.signalement.get()
-    if signalement is not None:
+    try:
+        signalement = Signalement.objects.get(specimen=specimen)
         notification = Notification.objects.create(
             utilisateur=signalement.utilisateur, date=now(),
-            description="Le spécimen associé au signalement que "
-            "vous avez fait a une nouvelle activité:\n\n" + description)
+            description="Des nouvelles concernant le signalement #"
+            + str(signalement.id) + "\n\n" + description)
         notification.save()
         if signalement.utilisateur.notifications:
             envoyer_courriel(signalement.utilisateur.user.email,
                              notification.description,
                              "Notification de S.O.S Frêne")
+    except Signalement.DoesNotExist:
+        return
 
 def notifications_utilisateur(courriel):
-    utilisateur = Utilisateur.objects.get(user__email=courriel)
-    if utilisateur is not None:
+    try:
+        utilisateur = Utilisateur.objects.get(user__email=courriel)
         notifications = Notification.objects.filter(
-            utilisateur=utilisateur)\
+            utilisateur=utilisateur, archive=False)\
                 .order_by("-date")
         return notifications
+    except Utilisateur.DoesNotExist:
+        return None
 
 def specimens_carte():
     nouvelle_liste = []
@@ -72,10 +82,26 @@ def envoyer_message(expediteur, receveur, sujet, message):
     msg.save()
     notification = Notification.objects.create(
         utilisateur=receveur, date=now(),
-        description="Nouveau message de la part de: {0}.\n"
+        description="Nouveau message\nExpéditeur: {0}.\n"
                     "Sujet: {1}\nContenu: \n\n{2}"\
                     .format(expediteur.user.get_full_name(), sujet, message))
     notification.save()
     if receveur.notifications:
         envoyer_courriel(receveur.user.email, notification.description,
                          "Notification de S.O.S Frêne")
+
+def ajouter_specimen(etat, latitude, longitude):
+    if etat not in ETATS_SPECIMEN:
+        raise SosfreneErreur("L'état spécifié n'existe pas.")
+    specimen = Specimen()
+    specimen.etat = ETATS_SPECIMEN[int(etat)]
+    localisation = Localisation()
+    localisation.latitude = latitude
+    localisation.longitude = longitude
+    localisation.save()
+    specimen.localisation = localisation
+    specimen.save()
+    return specimen
+
+class SosfreneErreur(Exception):
+    pass

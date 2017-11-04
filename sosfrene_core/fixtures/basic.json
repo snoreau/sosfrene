@@ -1,0 +1,132 @@
+[
+{
+    "model": "sosfrene_core.localisation",
+    "pk": 11,
+    "fields": {
+        "latitude": 45.6461911,
+        "longitude": -73.5237927
+    }
+},
+{
+    "model": "sosfrene_core.localisation",
+    "pk": 12,
+    "fields": {
+        "latitude": 45.6536909,
+        "longitude": -73.5655846
+    }
+},
+{
+    "model": "sosfrene_core.localisation",
+    "pk": 16,
+    "fields": {
+        "latitude": 45.6499127,
+        "longitude": -73.505908
+    }
+},
+{
+    "model": "sosfrene_core.specimen",
+    "pk": 9,
+    "fields": {
+        "etat": "Abattage pr\u00e9vu",
+        "localisation": 11
+    }
+},
+{
+    "model": "sosfrene_core.specimen",
+    "pk": 10,
+    "fields": {
+        "etat": "Atteint",
+        "localisation": 12
+    }
+},
+{
+    "model": "sosfrene_core.specimen",
+    "pk": 13,
+    "fields": {
+        "etat": "Atteint",
+        "localisation": 16
+    }
+},
+{
+    "model": "sosfrene_core.signalement",
+    "pk": 7,
+    "fields": {
+        "date": "2017-11-04T02:35:31.945Z",
+        "description": "J'ai vu des trous en forme de D sur le tronc.",
+        "utilisateur": 6,
+        "localisation": 16,
+        "accepte": false,
+        "specimen": null
+    }
+},
+{
+    "model": "sosfrene_core.photo",
+    "pk": 8,
+    "fields": {
+        "description": "",
+        "source": "uploads/1509762917806546234999.jpg"
+    }
+},
+{
+    "model": "sosfrene_core.detailsignalement",
+    "pk": 7,
+    "fields": {
+        "signalement": 7,
+        "photo": 8
+    }
+},
+{
+    "model": "auth.user",
+    "pk": 16,
+    "fields": {
+        "password": "pbkdf2_sha256$36000$ZHlvbGVGS8IT$P9oiCMLDZWcG9tMZVDwWyTR3i3C6JSlB8poJgfdMJxw=",
+        "last_login": "2017-11-03T02:06:15.766Z",
+        "is_superuser": false,
+        "username": "sosfrene@gmail.com",
+        "first_name": "Luc",
+        "last_name": "Lavoie",
+        "email": "sosfrene@gmail.com",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2017-11-03T00:23:53.880Z",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "auth.user",
+    "pk": 17,
+    "fields": {
+        "password": "pbkdf2_sha256$36000$ebbU36juUH4W$IC4FW8GUSFZfiKhPVaKDNGsUthYouNzgZGIMrxoF8xA=",
+        "last_login": "2017-11-03T01:47:03.459Z",
+        "is_superuser": false,
+        "username": "mtlbidon@gmail.com",
+        "first_name": "Joe",
+        "last_name": "Labrosse",
+        "email": "mtlbidon@gmail.com",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2017-11-03T00:26:00.240Z",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "sosfrene_core.utilisateur",
+    "pk": 5,
+    "fields": {
+        "user": 16,
+        "notifications": false,
+        "admin": true
+    }
+},
+{
+    "model": "sosfrene_core.utilisateur",
+    "pk": 6,
+    "fields": {
+        "user": 17,
+        "notifications": true,
+        "admin": false
+    }
+}
+]
