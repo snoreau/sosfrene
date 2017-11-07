@@ -1,9 +1,10 @@
+import json
 from django.utils.timezone import now
 from django.core.mail import send_mail
 
 from sosfrene_core.models import (
-    Utilisateur, Signalement, Message,
-    Activite, Notification, Specimen, Localisation
+    Utilisateur, Signalement, Message, DetailSignalement, Photo,
+    Activite, Notification, Specimen, Localisation, Signalement
 )
 from sosfrene_core.constants import ETATS_SPECIMEN
 
@@ -102,6 +103,27 @@ def ajouter_specimen(etat, latitude, longitude):
     specimen.localisation = localisation
     specimen.save()
     return specimen
+
+def creer_signalement(latitude, longitude, description, user, photos):
+    localisation = Localisation()
+    localisation.longitude = longitude
+    localisation.latitude = latitude
+    localisation.save()
+    signalement = Signalement()
+    signalement.date = now()
+    signalement.description = description
+    signalement.utilisateur = Utilisateur.objects.get(user=user)
+    signalement.localisation = localisation
+    signalement.save()
+
+    json_data = json.loads(photos)
+    for photo_pk in json_data["photos_pks"]:
+        detail = DetailSignalement()
+        detail.signalement = signalement
+        detail.photo = Photo.objects.get(pk=photo_pk)
+        detail.save()
+
+    return signalement
 
 class SosfreneErreur(Exception):
     pass

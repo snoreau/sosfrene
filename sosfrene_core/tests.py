@@ -5,7 +5,7 @@ from sosfrene_core.models import Utilisateur, Specimen, Activite
 from sosfrene_core.api import (
     courriel_existe, signalements_utilisateur, messages_utilisateur,
     envoyer_message, notifications_utilisateur, ajouter_specimen,
-    SosfreneErreur, specimens_carte, creer_activite
+    SosfreneErreur, specimens_carte, creer_activite, creer_signalement
 )
 
 
@@ -78,3 +78,10 @@ class CoreApiTestCase(TestCase):
         activite = Activite.objects.get(
             description="Une activité intéressante.")
         self.assertIsNotNone(activite)
+
+    def test_creer_signalement(self):
+        utilisateur = Utilisateur.objects.get(user__email="mtlbidon@gmail.com")
+        signalement = creer_signalement(
+            45.3424323, -73.3333, "Un arbre qui semble atteint...",
+            utilisateur.user, '{"photos_pks": [8]}')
+        self.assertIsNotNone(signalement)

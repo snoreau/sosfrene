@@ -151,7 +151,11 @@ class DetailsSpecimenView(LoginRequiredMixin, AdminView):
 
     def get(self, request, specimen_id):
         context = self.get_context_data()
-        specimen = Specimen.objects.get(id=specimen_id)
+        try:
+            specimen = Specimen.objects.get(id=specimen_id)
+        except Specimen.DoesNotExist:
+            return redirect("admin:specimens")
+
         context["entetes"] = ["Date", "Nouvel état"]
         context["specimen"] = specimen
         activites = list(Activite.objects.filter(
@@ -171,7 +175,11 @@ class SupprimerSpecimenView(LoginRequiredMixin, AdminView):
 
     def get(self, request, specimen_id):
         context = self.get_context_data()
-        specimen = Specimen.objects.get(id=specimen_id)
+        try:
+            specimen = Specimen.objects.get(id=specimen_id)
+        except Specimen.DoesNotExist:
+            return redirect("admin:specimens")
+
         specimen.delete()
         specimens = Specimen.objects.all()
         context["specimens"] = specimens
@@ -198,7 +206,11 @@ class DetailsMessageView(LoginRequiredMixin, AdminView):
 
     def get(self, request, message_id):
         context = self.get_context_data()
-        message = Message.objects.get(id=message_id)
+        try:
+            message = Message.objects.get(id=message_id)
+        except Message.DoesNotExist:
+            return redirect("admin:messages")
+
         context["message"] = message
         context["menu"] = "messages"
         return render(request, ADMIN_BASE + "details_message.html", context)
@@ -212,7 +224,11 @@ class ReponseMessageView(LoginRequiredMixin, AdminView):
     def post(self, request, message_id):
         form = self.form_class(request.POST)
         if form.is_valid():
-            message_original = Message.objects.get(id=message_id)
+            try:
+                message_original = Message.objects.get(id=message_id)
+            except Message.DoesNotExist:
+                return redirect("admin:messages")
+
             envoyer_message(message_original.receveur, message_original.expediteur,
                             form.cleaned_data["sujet"],
                             form.cleaned_data["message"])
@@ -226,7 +242,11 @@ class ReponseMessageView(LoginRequiredMixin, AdminView):
 
     def get(self, request, message_id):
         context = self.get_context_data()
-        message = Message.objects.get(id=message_id)
+        try:
+            message = Message.objects.get(id=message_id)
+        except Message.DoesNotExist:
+            return redirect("admin:messages")
+
         self.initial["sujet"] = message.sujet
         form = self.form_class(initial=self.initial)
         context["form"] = form
@@ -268,7 +288,7 @@ class DetailsSignalementView(LoginRequiredMixin, AdminView):
                 detailsignalement__signalement=signalement))
             context["photos"] = photos
         except Signalement.DoesNotExist:
-            return
+            return redirect("admin:signalements")
 
 
 class TraiterSignalementView(LoginRequiredMixin, AdminView):
@@ -281,7 +301,11 @@ class TraiterSignalementView(LoginRequiredMixin, AdminView):
         context["menu"] = "signalements"
         context["traiter"] = False
         form = self.form_class(initial=self.initial)
-        signalement = Signalement.objects.get(id=signalement_id)
+        try:
+            signalement = Signalement.objects.get(id=signalement_id)
+        except Signalement.DoesNotExist:
+            return redirect("admin:signalements")
+
         context["signalement"] = signalement
         context["utilisateur"] = signalement.utilisateur
         context["form"] = form
@@ -337,7 +361,11 @@ class NouvelleActiviteView(LoginRequiredMixin, AdminView):
         form = self.form_class(initial=self.initial)
         context = self.get_context_data()
         context["form"] = form
-        specimen = Specimen.objects.get(id=specimen_id)
+        try:
+            specimen = Specimen.objects.get(id=specimen_id)
+        except Specimen.DoesNotExist:
+            return redirect("admin:specimens")
+
         context["specimen"] = specimen
         context["menu"] = "specimens"
         return render(request, ADMIN_BASE + "activite.html", context)

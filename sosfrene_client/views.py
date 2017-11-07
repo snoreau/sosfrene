@@ -17,7 +17,7 @@ from sosfrene_core.models import (
 )
 from sosfrene_core.api import (
     signalements_utilisateur, messages_utilisateur,
-    specimens_carte, notifications_utilisateur
+    specimens_carte, notifications_utilisateur, creer_signalement
 )
 
 
@@ -162,8 +162,11 @@ class DetailsSignalementView(LoginRequiredMixin, ClientView):
         context = self.get_context_data()
         context["menu"] = "signalements"
         self._fill_context(context, signalement_id)
-        return render(
-            request, "details_signalement.html", context)
+        if context["signalement"]:
+            return render(
+                request, "details_signalement.html", context)
+        else:
+            return redirect("client:signalements")
 
     def _fill_context(self, context, signalement_id):
         try:
@@ -173,7 +176,7 @@ class DetailsSignalementView(LoginRequiredMixin, ClientView):
                 detailsignalement__signalement=signalement)
             context["photos"] = photos
         except Signalement.DoesNotExist:
-            return
+            context["signalement"] = None
 
 
 class NouveauSignalementView(LoginRequiredMixin, ClientView):
@@ -195,24 +198,10 @@ class NouveauSignalementView(LoginRequiredMixin, ClientView):
         context["form"] = form
         if form.is_valid():
             try:
-                localisation = Localisation()
-                localisation.longitude = form.cleaned_data["longitude"]
-                localisation.latitude = form.cleaned_data["latitude"]
-                localisation.save()
-                signalement = Signalement()
-                signalement.date = now()
-                signalement.description = form.cleaned_data["description"]
-                signalement.utilisateur = Utilisateur.objects.get(
-                    user=request.user)
-                signalement.localisation = localisation
-                signalement.save()
-
-                json_data = json.loads(form.cleaned_data["photos_pks"])
-                for photo_pk in json_data["photos_pks"]:
-                    detail = DetailSignalement()
-                    detail.signalement = signalement
-                    detail.photo = Photo.objects.get(pk=photo_pk)
-                    detail.save()
+                creer_signalement(
+                    form.cleaned_data["latitude"], form.cleaned_data["longitude"],
+                    form.cleaned_data["description"], request.user,
+                    form.cleaned_data["photos_pks"])
 
                 form = self.form_class(initial=self.initial)
                 context["form"] = form
@@ -245,7 +234,11 @@ class DetailsMessageView(LoginRequiredMixin, ClientView):
     def get(self, request, message_id):
         context = self.get_context_data()
         context["menu"] = "messages"
-        message = Message.objects.get(id=message_id)
+        try:
+            message = Message.objects.get(id=message_id)
+        except Message.DoesNotExist:
+            return redirect("client:messages")
+
         context["message"] = message
         return render(request, "details_message.html", context)
 
@@ -277,7 +270,11 @@ class ReponseMessageView(LoginRequiredMixin, ClientView):
     def get(self, request, message_id):
         context = self.get_context_data()
         context["menu"] = "messages"
-        message = Message.objects.get(id=message_id)
+        try:
+            message = Message.objects.get(id=message_id)
+        except Message.DoesNotExist:
+            return redirect("client:messages")
+
         self.initial["sujet"] = message.sujet
         form = self.form_class(initial=self.initial)
         context["form"] = form

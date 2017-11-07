@@ -18,7 +18,7 @@ $(".btn-coin-droit").click(function (event) {
     $.post("/archiver-notifications/", { id: id })
         .done(function(data) {
             if (data.reussite) {
-                $target.parent().remove();
+                $target.parent().fadeOut();
             }
         })
         .fail(function(data) {
