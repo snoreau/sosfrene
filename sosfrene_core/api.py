@@ -92,8 +92,6 @@ def envoyer_message(expediteur, receveur, sujet, message):
                          "Notification de S.O.S Frêne")
 
 def ajouter_specimen(etat, latitude, longitude):
-    if etat not in ETATS_SPECIMEN:
-        raise SosfreneErreur("L'état spécifié n'existe pas.")
     specimen = Specimen()
     specimen.etat = ETATS_SPECIMEN[int(etat)]
     localisation = Localisation()

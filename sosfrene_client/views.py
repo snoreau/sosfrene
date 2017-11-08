@@ -330,7 +330,7 @@ class TelechargementView(LoginRequiredMixin, ClientView):
         return JsonResponse(data)
 
 
-class SpecimensCarteView(LoginRequiredMixin, ClientView):
+class SpecimensCarteView(ClientView):
 
     def get(self, request):
         liste_specimens = specimens_carte()
